@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Marine Institute Application";
+    <!--Layout = null;--><!--may use layout for other site pages but not for SPA-->
+}
+
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+
+
+@*
+    <html ng-app="myApp">
+    <head>
+        <title>@ViewBag.Title</title>
+        <!--BundleConfig.cs-->
+        <!--Styles Helper-->
+        @Styles.Render("~/bundles/MIApp/style")<!--loads all stylesheets-->
+        <!--Scripts Helper-->
+        @Scripts.Render("~/bundles/MIApp/script")<!--loads all scripts-->
+    </head>
+
+    <body class="container">
+
+        <br />
+        <!--ng-view will handle swapping views in and out during routing-->
+        <div ng-view></div>
+    </body>
+    </html>
+*@

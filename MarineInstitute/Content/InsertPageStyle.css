@@ -1,0 +1,20 @@
+﻿insertContent {
+    height: 90%;
+    width: 80%;
+    margin-left:10%;
+}
+.right{
+    float:right;
+}
+.left{
+    float:left;
+}
+
+#editor{
+    height:500px;
+    width: 1000px;
+}
+
+
+
+

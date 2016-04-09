@@ -1,0 +1,289 @@
+http://data.marine.ie/Dataset/Details/20970
+
+
+
+<div class="container">
+    <div class="row-fluid dataset-container">
+        <div class="span8">
+
+            <article class="well well-raised">
+
+                <h4 class="hr-section">Connemara 2D Oceanographic Model
+                    <br />
+                </h4>
+
+
+                <p class="justify">The  Connemara 2D Model provides data for Galway Bay on the oceanographic surface parameters:
+
+(zeta) Sea Level Height (m),
+Barotropic Sea Water X Velocity (m/sec),
+and
+Barotropic Sea Water Y Velocity (m/sec).
+
+Users of the download service can choose a datetime, XY velocity parameters or zeta sea level height and a file type to download data.
+Note that at any one time, model data is available for the previous 30 days and 3 days into the future.</p>
+                <a href="http://catalogue.isde.ie/#/377a5d91-6612-4485-bca8-71fb51c068c3" target="_blank" onclick="trackEvent('ISDE', 'Link', 'Connemara 2D Oceanographic Model - 377a5d91-6612-4485-bca8-71fb51c068c3');">View full metadata</a>
+                <br />
+                
+                
+
+
+                
+    <link rel="stylesheet" type="text/css" href="/Content/jquery.timepicker.css" />
+    <script src="/Scripts/jquery.timepicker.min.js" type="text/javascript"></script>
+    <script src="/Scripts/ERDDAPSearch.js" type="text/javascript"></script>
+    <script type="text/javascript">
+            SetDapVariable("zeta", "float");
+            SetDapVariable("barotropic_sea_water_x_velocity", "float");
+            SetDapVariable("barotropic_sea_water_y_velocity", "float");
+
+            SetDapDimension("time", "double");
+            SetDapDimension("latitude", "double");
+            SetDapDimension("longitude", "double");
+
+            SetDapSingleVariableFileType("geotif");
+            SetDapSingleVariableFileType("largePng");
+            SetDapSingleVariableFileType("esriAscii");
+    </script>
+    <h5 class="hr-section">Select Data <a href="#" onclick="toggleDapPanel(this)">(hide)</a></h5>
+    <div id="dapPanel" >
+
+    <div class="form-horizontal">
+
+
+<div class="control-group-compact">
+    <label class="control-label" for="Name">time</label>
+    <div class="controls">
+        <input class="input-small dapDate date" id="timeMin" name="timeMin" placeholder="time" type="text" value="25/03/2016" />
+        <input class="input-mini dapTime" id="timeMinTime" name="timeMinTime" placeholder="hh:mm" type="text" value="12:00 AM" />
+        <span class="dapMaxDate"> to </span>
+        <input class="input-small dapDate date dapMaxDate" id="timeMax" name="timeMax" placeholder="time" type="text" value="05/04/2016" />
+        <input class="input-mini dapTime dapMaxDate" id="timeMaxTime" name="timeMaxTime" placeholder="hh:mm" type="text" value="01:00 AM" />
+    </div>
+</div>    <div class="control-group-compact">
+        <div class="controls">
+            <div class="dapToggler btn">Advanced</div> <span>(click to display more search options)</span>
+        </div>
+    </div>    
+    <div class="dapToggled">
+
+<div class="control-group-compact">
+    <label class="control-label" for="Name">latitude</label>
+    <div class="controls">
+        <input class="input-medium dapDecimal" id="latitudeMin" name="latitudeMin" placeholder="latitude" type="text" value="52.95089447171561" /><span> - </span><input class="input-medium dapDecimal" id="latitudeMax" name="latitudeMax" placeholder="latitude" type="text" value="53.72912172247213" />
+    </div>
+</div>
+<div class="control-group-compact">
+    <label class="control-label" for="Name">longitude</label>
+    <div class="controls">
+        <input class="input-medium dapDecimal" id="longitudeMin" name="longitudeMin" placeholder="longitude" type="text" value="-10.79851171874996" /><span> - </span><input class="input-medium dapDecimal" id="longitudeMax" name="longitudeMax" placeholder="longitude" type="text" value="-8.89648828124996" />
+    </div>
+</div>    </div>    
+    <div class="control-group">
+         <label class="control-label" for="Name">variables</label>
+        <div class="controls">
+
+<div class="dapVariableColumn">
+    <input class="input-small gridCheckVariable dapCheckVariable ellipsis" id="zeta" name="zeta" placeholder="zeta" type="checkbox" value="true" /><input name="zeta" type="hidden" value="false" />&nbsp;zeta
+</div>
+<div class="dapVariableColumn">
+    <input class="input-small gridCheckVariable dapCheckVariable ellipsis" id="barotropic_sea_water_x_velocity" name="barotropic_sea_water_x_velocity" placeholder="barotropic_sea_water_x_velocity" type="checkbox" value="true" /><input name="barotropic_sea_water_x_velocity" type="hidden" value="false" />&nbsp;barotropic_sea_water_x_velocity
+</div>
+<div class="dapVariableColumn">
+    <input class="input-small gridCheckVariable dapCheckVariable ellipsis" id="barotropic_sea_water_y_velocity" name="barotropic_sea_water_y_velocity" placeholder="barotropic_sea_water_y_velocity" type="checkbox" value="true" /><input name="barotropic_sea_water_y_velocity" type="hidden" value="false" />&nbsp;barotropic_sea_water_y_velocity
+</div>        </div>
+    </div>
+
+        <div class="control-group-compact">
+            <label class="control-label" for="Name">File type</label>
+            <div class="controls">
+
+                
+                <select class="input-xlarge" id="DatasetResourceFileType" name="DatasetResourceFileType"><option value=""></option>
+<option selected="selected" value="geotif">geotif</option>
+<option value="largePng">png</option>
+<option value="esriAscii">esriAscii</option>
+<option value="nc">NetCDF</option>
+</select>                
+            </div>
+            <br />
+            <div class="alert singleFileTypeAlert">
+                Please note that for the selected file type only one variable can be checked.
+            </div>
+            <div class="alert validationRequiredAlert"></div>
+        </div>
+    </div>
+    
+    <div class="control-group-compact">
+        <a onclick="SearchERDDAP('http://erddap.marine.ie/erddap/griddap/IMI_CONN_2D.json', 'IMI_CONN_2D');return false;" href="#" class="btn btn-info " data-original-title="btn btn-info "><i class="icon-search icon-white"></i>&nbsp;Create Download</a>
+        <span id="checkDownloadProgress"></span>
+        <span class="text-info downloadStatus">Verifying download, please wait ...</span>
+        <span class="text-error downloadError">Sorry, no data has been found for your request</span>
+        <span><a id="ERDDAPResourceLink" class="erddapLink" href="#">Download resource</a></span>
+    </div>
+
+    <a id="_linkChecker" href="/Dataset/CheckERDDAPResource" style="display:none"></a>    
+    </div>
+
+
+                <h5 class="hr-section"></h5>
+                <div class="row-fluid">
+                    <div class="span6">
+                            <img src="/Content/Images/Dataset/ec300bb7-be97-4958-a205-149d225611c0.jpg" alt="" class="dataset-container-image" />    
+                    </div>
+                    <div class="span6">
+                        <h6>Geographic Extent</h6>
+                        <table class="border0 td100">
+                            <tr>
+                                <td class="td50">West Bound Longitude:</td>
+                                <td class="td50">-11.100</td>
+                            </tr>
+                            <tr>
+                                <td class="td50">East Bound Longitude:</td>
+                                <td class="td50">-9.100 </td>
+                            </tr>
+                            <tr>
+                                <td class="td50">South Bound Latitude:</td>
+                                <td class="td50">52.900 </td>
+                            </tr>
+                            <tr>
+                                <td class="td50">North Bound Latitude:</td>
+                                <td class="td50">53.700 </td>
+                            </tr>
+                        </table>
+                        <h6>Time Extent</h6>
+                        <table class="border0 td100">
+                            <tr>
+                                <td class="td50">Begin Date:</td>
+                                <td class="td50">n/a</td>
+                            </tr>
+                            <tr>
+                                <td class="td50">End Date:</td>
+                                <td class="td50">n/a</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row-fluid dataset-container-edit">
+                    <div class="span12">
+
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="span4">
+            <style >
+    .socialCell {
+        padding: 0;
+        min-height: 20px !important;
+    }
+</style>
+
+<aside id="rightBoxSocial" class="well">
+    <ul class="nav nav-list">
+        <li class="nav-header">Social</li>
+        <li>
+            <div class="row-fluid">
+                <div class="span6 socialCell">
+    <strong><a href="/Dataset/Feed/20970" target="_blank"><i class="icon-rss"></i> RSS</a><br /></strong>
+
+</div>
+                <div class="span6 socialCell">
+
+<strong><a href="mailto:?Subject=Connemara 2D Oceanographic Model%20page%20on%20data.marine.ie&Body=http://data.marine.ie/Dataset/Details/20970"><i class="icon-envelope" style="padding-right:4px;"></i>Email</a><br /></strong>
+</div>
+            </div>
+        </li>
+        <li class="social-item">
+            <div class="row-fluid">
+                <div class="span6 socialCell"><span class="social-item">
+    <div id="fb-root"></div>
+    <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="true" data-font="segoe ui"></div>
+</span>
+
+<script type="text/plain" class="cc-onconsent-social">
+(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=123608167662575";
+    fjs.parentNode.insertBefore(js, fjs);
+    $("#fb-root").show();
+    $(".fb-like").show();
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+</div>
+                <div class="span6 socialCell"><span class="social-item">
+    <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+</span>
+<script type="text/plain" class="cc-onconsent-social">
+    !function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+            //$(".twitter-share-button").show();
+        }
+    }(document, "script", "twitter-wjs");
+</script></div>
+            </div>
+        </li>
+        <li class="social-item">
+            <div class="row-fluid">
+                <div class="span6 socialCell"><script src="http://platform.linkedin.com/in.js" type="text/plain" class="cc-onconsent-social"></script>
+<script type="IN/Share" data-counter="right" data-showzero="true" type="text/plain" class="cc-onconsent-social"></script></div>
+                <div class="span6 socialCell "><!-- Place this tag where you want the share button to render. -->
+<span class="social-item">
+    <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+</span>
+<!-- Place this tag after the last share tag. -->
+<script  type="text/plain" class="cc-onconsent-social">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script></div>
+            </div>
+        </li>
+    </ul>
+</aside>
+            <aside id="rightBoxLicence" class="well">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Licence</li>
+                    <li><a target="_blank" href="http://data.marine.ie/downloads/Licence/LicenseAgreementforuseofMarineInstituteDigitalData.pdf">Marine Institute Data Licence</a></li>
+                </ul>
+            </aside>
+            <aside id="rightBoxKeywords" class="well">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Keywords</li>
+                    <li class="active">
+ <span class="label label-inverse keyword-outer"><a class="keyword-inner"href="/Search?searchText=%22oceanography%22&keywordOnly=True">oceanography</a></span> <span class="label label-inverse keyword-outer"><a class="keyword-inner"href="/Search?searchText=%22sea%20level%22&keywordOnly=True">sea level</a></span> <span class="label label-inverse keyword-outer"><a class="keyword-inner"href="/Search?searchText=%22Currents%22&keywordOnly=True">Currents</a></span>                    </li>
+                </ul>
+            </aside>
+            <aside id="rightBoxPointOfContact" class="well">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Point of Contact</li>
+                        <li>Oceanographic Services</li>
+                                            <li>Marine Institute</li>
+                                                                <li>Rinville</li>
+                                                                <li>Oranmore</li>
+                                                                <li>Co. Galway</li>
+                                            <li><a href="mailto:datarequests@marine.ie">datarequests@marine.ie</a></li>    
+                </ul>
+            </aside>
+            <aside id="rightBoxSocial" class="well">
+    <ul class="nav nav-list">
+        <li class="nav-header">Not exactly what you are looking for?</li>
+        <li>
+           <a href="http://www.marine.ie/Home/marine-institute-request-digital-data?language=en" target="_blank">Log Data Request</a>
+        </li>
+    </ul>
+</aside>
+
+        </div>
+    </div>
+</div>
