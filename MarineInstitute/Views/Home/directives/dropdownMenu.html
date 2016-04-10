@@ -1,8 +1,5 @@
 ﻿<!--html snippet used for dropdown menu directive-->
-
-
-<div ng-controller="dropdownData">
-
+<div>
     <p>Select which Category you would like to get tables from.....</p>
 
     <select ng-click="loadArray()" ng-change="populate(catSelect)" ng-model="catSelect" class="btn btn-default dropdown-toggle">
@@ -19,5 +16,4 @@
         <option class="default"></option>
         <option ng-repeat="voc in dropdownTables" class="list-group-item">{{ voc }}</option>
     </select>
-
 </div>

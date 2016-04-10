@@ -1,5 +1,32 @@
 ﻿var myApp = angular.module('myApp', ['ngRoute']);
 
+
+//built a custom directive for the drop down menu 
+//this particular UI element will be reused across two different views
+//this reduces the amount of code required
+//template vs templateUrl - IIS issues
+//no isolated scope required as the directive can access all requried elements from
+//parent scope (the dropdownData controller)
+myApp.directive('dropdownMenu', function () {
+
+    return {
+        restrict: 'EA',
+        template:'<div><p>Select which Category you would like to get tables from.....</p>'
+            +'<select ng-click="loadArray()" ng-change="populate(catSelect)" ng-model="catSelect" class="btn btn-default dropdown-toggle"><option></option>'
+            +'<option ng-repeat="cat in catalogueTable" class="list-group-item">{{ cat }}</option></select><br /><p>Select which Table you would like to selected add words to.....</p>'
+            +'<select ng-change="urlSelect(vocabSelect)" ng-model="vocabSelect" class="btn btn-default dropdown-toggle"><option class="default"></option>'
+            +'<option ng-repeat="voc in dropdownTables" class="list-group-item">{{ voc }}</option></select></div>',
+        //templateUrl: 'directives/dropdownMenu.html',//view
+        replace: true,
+        controller: 'dropdownData',
+        //isolating the scope
+        //prevents directive from effecting views
+        scope: {//model
+        }
+    }
+
+});//end directive
+
 myApp.config(function ($routeProvider) {
     //configures which controllers will be used for what page
 
@@ -7,7 +34,7 @@ myApp.config(function ($routeProvider) {
 
 	.when('/', {
 	    templateURL: 'home/Create.cshtml',
-	    controller: 'createController'
+	    controller: 'vocabController'
 	})
 
 	.when('/', {
@@ -22,7 +49,7 @@ myApp.config(function ($routeProvider) {
 //  refactor the create.cshtml so that the create controller looks after entire page
 //  create a directive for the dropdown menus
 //  bind the vocab select to a watch method in a service for the createController to access
-myApp.controller('vocabController', ['$scope', '$http', function ($scope, $http, Submit) {
+myApp.controller('vocabController', ['$scope', '$http', 'vocabService', function ($scope, $http, vocabService) {
 
     //get request that returns the list from parse method
     //this runs automatically when page loads however it will eventually
@@ -43,7 +70,7 @@ myApp.controller('vocabController', ['$scope', '$http', function ($scope, $http,
         $scope.tempLeftArray = [];//stores words before being transferred back (change of mind)
         $scope.submit = [];//stores the words to be submitted to a database vocabulary
         $scope.stopWords = [];//stores the words to be submitted to the stopword table
-
+        $scope.submitArray = [];//stores the post array for database
 
     //add selected words to array
     //generic function that takes in a word and stores it in the appropriate temp array (right/left)
@@ -89,11 +116,6 @@ myApp.controller('vocabController', ['$scope', '$http', function ($scope, $http,
         console.log('Submit array: $scope.submit', $scope.submit);//test in console
         console.log('StopWords array: $scope.stopWords', $scope.stopWords);//test in console
 
-        //might remove this as i might move all the functions to same controller and add a watch for the selected vocab instead
-        if (newArray === $scope.submit) {
-            Submit.store($scope.submit);
-        }
-
 
         //got this working - review why
         //removes all words from the temp array
@@ -136,10 +158,20 @@ myApp.controller('vocabController', ['$scope', '$http', function ($scope, $http,
     }//end submitStopWords method
 
 
+
     //the following will submit to the database
     //submits the selected vocab words to the appropriate table in database
     //needs access to the vocab selected in the dropdown directive
     $scope.submitDB = function () {
+
+        //gets value of the selected vocabulary
+        //uses a factory to pass variable across controllers
+        //a watch is set on the factory so that when it changes it will update the variable
+            $scope.vocabSelect = vocabService.vocabSelect;
+            $scope.$watch('vocabSelect', function () {
+                vocabService.vocabSelect = $scope.vocabSelect;
+                console.log('vocabarray: $scope.vocabSelect', $scope.vocabSelect);//console testing
+            });
 
         //set parameters
         //vocab select is going to have to be accessed by watch service
@@ -171,10 +203,8 @@ myApp.controller('vocabController', ['$scope', '$http', function ($scope, $http,
 
 }]);
 
-
-
 //insert tag view
-myApp.controller('insertController', ['$scope', '$location', function ($scope, $location) {
+myApp.controller('insertController', ['$scope', '$location', 'vocabSelect', function ($scope, $location, vocabSelect) {
 
     //for the predefined tags
     $scope.schemaTag = [];
@@ -243,16 +273,19 @@ myApp.controller('insertController', ['$scope', '$location', function ($scope, $
 
 }]);
 
-
-
-
 //Will populate dropdown menus and set apporpriate parameters for inserting into database tables
 //should be changed to a directive
-myApp.controller('dropdownData', ['$scope', '$http', 'Submit', function ($scope, $http, Submit) {
+myApp.controller('dropdownData', ['$scope', '$http', 'vocabService', function ($scope, $http, vocabService) {
 
     $scope.catSelect = '';
-    $scope.vocabSelect = '';
-    $scope.tagSelect = '';
+    $scope.vocabSelect = vocabService.vocabSelect;//set to value in the factory service
+
+    //watch must be set on the factory service so that when the value changes it updates in this scope
+        $scope.$watch('vocabSelect', function () {
+            vocabService.vocabSelect = $scope.vocabSelect;
+            console.log('vocabselect: $scope.vocabSelect', $scope.vocabSelect);//console testing
+        });
+
 
     $scope.dropdownTables = {};
 
@@ -319,6 +352,25 @@ myApp.controller('dropdownData', ['$scope', '$http', 'Submit', function ($scope,
 
 
 }]);
+
+
+//this is a small factory which enables the drop down menu to pass the value
+//of the vocabulary selected out to other controllers which need it
+myApp.factory('vocabService', function () {
+
+    var selected ='';
+    
+    return {
+        store: function (word) {
+            selected = word;
+            console.log('selected vocab in factory: word ', word);
+        },
+        get: function () {
+            return selected;
+        }
+    }
+       
+});
 
 myApp.controller('tagBuiler', ['$scope', function ($scope) {
 
@@ -442,6 +494,7 @@ myApp.factory('tagAttr', ['$rootScope', function ($rootScope) {
 }]);//empty
 
 
+//not using submit
 myApp.factory('Submit',['$rootScope', function ($rootScope) {
 
     var array = [];

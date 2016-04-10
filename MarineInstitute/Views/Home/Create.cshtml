@@ -7,33 +7,21 @@
 <p>Extract vocabulary from XML file and save to database.</p>
 
 <div id="uploadRun" ng-controller="uploadRun" class="col-md-12">
-    
- <div class="fileUpload btn btn-default">
-        <span>Upload</span>
-        <input id="uploadBtn" type="file" class="upload" accept="text/xml" />
+    <div class="fileUpload btn btn-default">
+            <span>Upload</span>
+            <input id="uploadBtn" type="file" class="upload" accept="text/xml" />
     </div>
-
     <input id="uploadFile" ng-model="textBoxDisplay" disabled="disabled" />
-            <script>
-                
-                document.getElementById("uploadBtn").onchange = function () {
-                    document.getElementById("uploadFile").value = this.value;
-                        };
-            </script><!--http://geniuscarrier.com/how-to-style-a-html-file-upload-button-in-pure-css/-->
-  
-    <!--ORIGINAL CODE - AMMEND ABOVE TO MAKE MY OWN??
-        
-        <div id="uploadButton" class="btn btn-default file">
-        <label for="uploadButton-btn">Open File</label>
-        <input id="uploadButton-btn" type="file" accept="text/xml" />
-    </div>-->
-
     <button type="submit" class="btn btn-default run" ng-click="runParse()">Run Program</button>
-</div>
+</div><!--uploading file div which isnt in use at the moment-->
 
 
 <div id="main" ng-controller="vocabController">
 
+    <dropdown-menu></dropdown-menu>
+
+
+    <!--
     <div ng-controller="dropdownData" class="col-md-2 leftPanel">
 
         <p>Select which Category you would like to get tables from.....</p>
@@ -44,7 +32,7 @@
         </select>
         
         <br />
-        <!--Selected = {{ catSelect }}-->
+        <!--Selected = {{ catSelect }}
         <br />
 
         <p>Select which Table you would like to selected add words to.....</p>
@@ -55,16 +43,18 @@
             <option ng-repeat="voc in dropdownTables" class="list-group-item">{{ voc }}</option>
         </select>
 
-        <br />
-        <!--Selected = {{ vocabSelect }}-->
-        <br />
-        <button type="submit" ng-click="submitDB()" class="btn btn-default submitDB">Submit to Database</button>
-
+        
 
     </div>
+    -->
+    <div><br />
+        Selected = {{ vocabSelect }}
+        <br />
+        <button type="submit" ng-click="submitDB()" class="btn btn-default submitDB">Submit to Database</button>
+</div>
 
     <br />
-    <div class="row">
+    <div class="list-boxes">
 
         <div id="left" class="dual-list list-left col-md-4">
             <div class="well text-right">

@@ -10,20 +10,7 @@
     <div class="loadFile"></div>
     <div class="left">
         <div ng-controller="dropdownData" class="tagSelector">
-            <p>Select category.</p>
-            <select ng-click="loadArray()" ng-change="populate(catSelect)" ng-model="catSelect" class="btn btn-default dropdown-toggle">
-                <option></option>
-                <option ng-repeat="cat in catalogueTable" class="list-group-item">{{ cat }}</option>
-            </select><!--taken directly from create view-->
-            <br />
-            <p>Select vocabulary</p>
-            <select ng-model="vocabSelect" ng-change="loadKeywords()" class="btn btn-default dropdown-toggle">
-                <option class="default"></option>
-                <option ng-repeat="voc in dropdownTables" class="list-group-item">{{ voc }}</option>
-            </select><!--taken directly from create view-->
-            <br />
-            Selected vocab = {{ vocabSelect }}
-            <br />
+            <dropdown-menu></dropdown-menu>
 
             <p>Pre-defined tags</p>
             <!--<select class="predefinedtags"></select>-->
