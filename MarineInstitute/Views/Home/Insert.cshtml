@@ -7,71 +7,64 @@
     <h2>Insert</h2>
     <p>Application in development</p>
 
-    <div class="loadFile"></div>
-    <div class="left">
-        <div ng-controller="dropdownData" class="tagSelector">
-            <dropdown-menu></dropdown-menu>
+<div class="loadFile"></div>
+    
+<div class="left"><!--check css - change to selection-div -->
+        <div ng-controller="insertController" class="tagSelector"><!--can probably remove this-->
+            <dropdown-menu></dropdown-menu><!--directive called-->
 
             <p>Pre-defined tags</p>
-            <!--<select class="predefinedtags"></select>-->
-
-            <br />
-            <select ng-model="tagSelect" ng-click="loadTags()" class="btn btn-default dropdown-toggle">
-                <option class="default"></option>
-                <option ng-repeat="tags in schemaTag | filter:vocabSelect" class="list-group-item">{{ tags.Tag }}</option>
-            </select><!--need to change the get from keyword to tag - addresscontact only-->
-            <br />
-            Selected tag = {{ tagSelect }}
-            <br />
-
-            <br />
-
-            <br /><!--ng-controller="tagBuilder"-->
-            <div class="tagAttributes">
-                <p>Tag Builder.</p>
-                <!--Select radio button item prop/item type
-                <input type="radio" ng-model="type" value="itemprop" />Item Scope
-                <input type="radio" ng-model="type" value="itemscope"/>Item Prop
-                <br />-->
-                <p>Base tag</p><!--ng-click="loadBaseTags()"-->
-                <select ng-model="baseTag" class="btn btn-default dropdown-toggle">
+                <select ng-model="tagSelect" ng-click="loadTags()" class="btn btn-default dropdown-toggle">
                     <option class="default"></option>
-                    <option ng-repeat="tags in baseTags | filter:vocabSelect" class="list-group-item">{{ tags }}</option>
-                </select>
-                <br />
-                Selected tag = {{ baseTag }}
-                <br />
-                <p>Keyword (based on vocabulary above)</p>
-                <select ng-model="keyword" class="btn btn-default dropdown-toggle">
-                    <option class="default"></option>
-                    <option ng-repeat="word in keywords | filter:vocabSelect" class="list-group-item">{{ word.Keyword }}</option>
+                    <option ng-repeat="tags in schemaTag | filter:vocabSelect" class="list-group-item">{{ tags.Tag }}</option>
                 </select><!--need to change the get from keyword to tag - addresscontact only-->
-                <br />
-                Selected tag = {{ keyword }}
-                <br />
+            Selected tag = {{ tagSelect }} <!--testing - remove before demo-->
+            <br />
 
+            <br />
+
+            <br />
+            <div class="tagAttributes">
+                <h3>Tag Builder.</h3>
+
+                    <p>Base tag</p>
+                        <select ng-model="baseTag" class="btn btn-default dropdown-toggle">
+                            <option class="default"></option>
+                            <option ng-repeat="tags in baseTags | filter:vocabSelect" class="list-group-item">{{ tags }}</option>
+                        </select>
+                    Selected tag = {{ baseTag }} <!--testing - remove before demo-->
+                    <br />
+                    <p>Keyword (based on vocabulary above)</p>
+                        <select ng-model="keyword" class="btn btn-default dropdown-toggle">
+                            <option class="default"></option>
+                            <option ng-repeat="word in keywords | filter:vocabSelect" class="list-group-item">{{ word.Keyword }}</option>
+                        </select><!--need to change the get from keyword to tag - addresscontact only-->
+                    Selected keyword = {{ keyword }} <!--testing - remove before demo-->
+                    <br />
+                    Selected vocabulary(from dropdown) = {{ vocabSelect }} <!--testing - remove before demo-->
                 <div class="tagBuilder">
-                    <!--ng-controller="tagBuilder"-->
                     <input value="{{ insertTag }}" type="text" class="tagBuilderView" /><br/><!--Some nice fancy javascript here to build the tag-->
-                    <button type="button" ng-click="buildScope(baseTag,keyword)">Build Scope Tag</button>
-                    <button type="button" ng-click="buildProp(keyword)">Build Property Tag</button>
+                        <button type="button" ng-click="buildScope(baseTag,keyword)">Build Scope Tag</button>
+                        <button type="button" ng-click="buildProp(keyword)">Build Property Tag</button>
+                    <!--need to add an add to database button - will need to put a check that the correct vocabulary is selected
+                        maybe have an uneditable text box that displays selected vocabulary and an alert box to double check-->
                 </div>
             </div>
         </div>
     </div>
 </div>
-    
+
+    <!--check in css change to edit-div-->
     <div class="right" ng-controller="htmlEdit">
+        
         <input id="upload" type="file" class="upload" accept="text/html" ng-model="filePath" />
         <button ng-click="upload()" type="button">Load</button>
-            <!--<iframe id="code" src="Contact" width="750" height="500"></iframe>-->
-            <!--<textarea id="editarea"></textarea>-->
-            <div class="html-div"><!--ng-change="select()"-->
-                <!--<textarea class="html-text" ng-model="plainHTML"></textarea><br>-->
-                <div id="html" class="html-text" ng-model="plainHTML" contenteditable="true">{{plainHTML}}</div><br>
-                    <!--<button ng-click="editMode=false">Back</button>-->
-                <button ng-click="surround()">Insert</button>
-            </div>
-</div>
+            
+        <div class="html-div"><!--go check stylesheets - is this div needed?--> 
+            <div id="html" class="html-text" ng-model="plainHTML" contenteditable="true">{{plainHTML}}</div><!--think this is ok-->  
+            <button ng-click="surround()">Insert</button><!--style this-->
+        </div>
+
+    </div><!--end edit-div-->
     
 
