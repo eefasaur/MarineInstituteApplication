@@ -17,7 +17,7 @@ myApp.config(function ($routeProvider) {
 
 });//routing of controllers to views
 
-//the create page
+//the vocab page (formally create page)
 //to do:
 //  refactor the create.cshtml so that the create controller looks after entire page
 //  create a directive for the dropdown menus
@@ -256,8 +256,7 @@ myApp.controller('dropdownData', ['$scope', '$http', 'Submit', function ($scope,
 
     $scope.dropdownTables = {};
 
-
-
+    //initial get request to populate the different catalogues
     $http.get('/api/Catalogue/GetCatalogueTitle')
         .success(function (result) {
             $scope.catalogueTable = result;
@@ -268,6 +267,8 @@ myApp.controller('dropdownData', ['$scope', '$http', 'Submit', function ($scope,
         });
 
     //populate the arrays
+    //a series of get requests that bind the relevent vocabularies to the appropriate catagories
+    //this is done server side using linq query language in the controllers
     $http.get('/api/Vocabulary/Administration')
     .success(function (result) {
         $scope.adminCat = result;
