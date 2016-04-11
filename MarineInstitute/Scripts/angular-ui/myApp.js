@@ -207,8 +207,6 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabService', function
 myApp.controller('insertController', ['$scope', '$http', 'vocabService', 'tagService', function ($scope, $http, vocabService, tagService) {
 
 
-
-
     //gets value of the selected vocabulary
     //uses a factory to pass variable across controllers
     //a watch is set on the factory so that when it changes it will update the variable
@@ -338,6 +336,72 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', 'tagSer
 
 }]);
 
+//handles the functionality of inserting tags
+myApp.controller('htmlEdit', ['$scope', 'tagService', function ($scope, tagService) {
+
+    $scope.filePath = '';//placeholder
+    $scope.plainHTML = "";//placeholder
+
+
+    $scope.upload = function (e) {
+
+        var fileInput = document.getElementById('upload');
+        console.log('fileInput', fileInput);
+        var reader = new FileReader();
+
+        var file = fileInput.files[0];//file reader object is an array even if only one file => must return index 0
+
+
+        reader.onload = function (e) {
+            //$scope.fileData = reader.result;
+            $scope.$apply(function () {
+                document.getElementById('html').innerText = reader.result;
+                //console.log('$scope.plainHTML', $scope.plainHTML);
+            });
+            //$scope.plainHTML;
+
+        };
+        reader.readAsText(file);//this reads the file into the text area
+
+    }
+
+    $scope.surround = function () {
+        
+        $scope.tag = tagService.get();//retrieves the stored variable in the tagService factory
+   
+        var selectedText = document.getSelection();//selected text (highlighted in div) native js function
+
+        $scope.text = selectedText.toString();//to test
+        console.log('selection: $scope.text', $scope.text);//console test
+
+        var node = document.createTextNode($scope.tag);//creates a node element out of the tag
+        var range = selectedText.getRangeAt(0);//defines index 0 of the text selection
+        //when inserting a node it is inserted at index 0
+
+        //http://stackoverflow.com/questions/3597116/insert-html-after-a-selection
+        //https://developer.mozilla.org/en-US/docs/Web/API/Range/collapse
+
+        range.insertNode(node);//native js function which inserts the previously created node element
+
+        //the following checks the node for what type of html element it was e.g. div or span
+        var tag = $scope.tag;
+        if (tag.indexOf("div") != -1) {//if the string div is in the tag element
+            range.collapse(false);//collapse the range
+            var div = document.createTextNode('</div>');//create appropriate node
+            range.insertNode(div);//insert
+        } else if (tag.indexOf("span") != -1) {//if the string span is in the tag element
+            range.collapse(false);//collapse the range
+            var span = document.createTextNode('</span>');//create node
+            range.insertNode(span);//insert
+        }
+        //NOTE on range collapse: collapses range to boundry point - in this case index 0
+        //this allows the end tag to be inserted.  if you define the index e.g. length - 1
+        //the node will be inserted at -1 => in front of the opening element tag
+
+    }
+
+}]);//end html editor
+
 //Will populate dropdown menus and set apporpriate parameters for inserting into database tables
 //should be changed to a directive
 myApp.controller('dropdownData', ['$scope', '$http', 'vocabService', function ($scope, $http, vocabService) {
@@ -430,15 +494,14 @@ myApp.controller('dropdownData', ['$scope', '$http', 'vocabService', function ($
 
 }]);
 
-
 //this is a small factory which enables the drop down menu to pass the value
 //of the vocabulary selected out to other controllers which need it
 //anthony alicea service videos helped with this and placing the $watch
 //on the related scope variables in other controllers
 myApp.factory('vocabService', function () {
 
-    var selected ='';
-  
+    var selected = '';
+
     return {
         store: function (word) {
             selected = word;
@@ -448,125 +511,9 @@ myApp.factory('vocabService', function () {
             return selected;
         }
     }
-   
-       
+
+
 });
-
-//included in the insertController
-myApp.controller('tagBuiler', ['$scope', function ($scope) {
-
-    $scope.insertScope = '<itemscope=”http://schema.org/';
-    $scope.insertProp = '<span itemprop=”';
-    $scope.end = '”>';
-    $scope.type = '';
-    //$scope.keyword = '';
-
-    $scope.insertTag = '';
-
-    $scope.buildTag = function (baseTag,keyword,en) {
-        
-        if ($scope.type === 'itemprop') {
-            //stringbuilder
-            insertTag = insertProp.concat(keyword);
-        } else {
-            //stringbuilder
-            insertScope = insertTag.concat(baseTag,keyword,end);
-        }
-
-        
-    }
-
-    $scope.buildScope = function (baseTag,keyword) {
-
-        //stringbuilder
-        $scope.insertScope = $scope.insertTag.concat(baseTag, keyword, $scope.end);
-        console.log('property tag: $scope.insertTag', $scope.insertTag);
-    }
-
-    $scope.buildProp = function (keyword) {
-        //stringbuilder
-        $scope.insertTag = $scope.insertProp.concat(keyword, $scope.end);
-        console.log('property tag: $scope.insertTag', $scope.insertTag);
-    }
-
-}]);//insert tag page
-
-//handles the functionality of inserting tags
-myApp.controller('htmlEdit', ['$scope', 'tagService', function ($scope, tagService) {
-
-    $scope.filePath = '';
-
-    $scope.plainHTML = "";//placeholder
-
-    //$scope.tag = '<span itemprop="test">';
-
-    //e = event happening
-    //do i need e in upload parameter?
-
-    $scope.upload = function (e) {
-
-        //var fileInput = $scope.filePath;
-        var fileInput = document.getElementById('upload');
-        console.log('fileInput', fileInput);
-        var reader = new FileReader();
-
-        var file = fileInput.files[0];//file reader object is an array even if only one file => must return index 0
-
-
-        reader.onload = function (e) {
-            //$scope.fileData = reader.result;
-            $scope.$apply(function () {
-                document.getElementById('html').innerText = reader.result;
-                //console.log('$scope.plainHTML', $scope.plainHTML);
-            });
-            //$scope.plainHTML;
-
-        };
-        reader.readAsText(file);//this reads the file into the text area
-
-    }
-
-    $scope.selectedText = '';
-
-    $scope.select = function (e) {
-
-    }
-
-    $scope.tag = '<div itemscope="test">';
-    //$scope.surround = function (e) {}
-
-    $scope.surround = function () {
-        $scope.tag = tagService.get();
-
-        //selected text (highlighted in div)
-        var selectedText = document.getSelection();
-        $scope.text = selectedText.toString();
-        console.log('selection: $scope.text', $scope.text);
-
-        var node = document.createTextNode($scope.tag);
-
-        var range = selectedText.getRangeAt(0);
-
-        //http://stackoverflow.com/questions/3597116/insert-html-after-a-selection
-        //https://developer.mozilla.org/en-US/docs/Web/API/Range/collapse
-
-        range.insertNode(node);
-        var tag = $scope.tag;
-        if (tag.indexOf("div") != -1) {
-            range.collapse(false);
-            var div = document.createTextNode('</div>');
-            range.insertNode(div);
-        } else if (tag.indexOf("span") != -1) {
-            range.collapse(false);
-            var span = document.createTextNode('</span>');
-            range.insertNode(span);
-        }
-
-
-
-    }
-
-}]);//end html editor
 
 //will be used to share tags from main insert controller - to the editor
 myApp.factory('tagService', function () {
@@ -585,6 +532,44 @@ myApp.factory('tagService', function () {
 
 });//end tag service
 
+//included in the insertController
+myApp.controller('tagBuiler', ['$scope', function ($scope) {
+
+    $scope.insertScope = '<itemscope=”http://schema.org/';
+    $scope.insertProp = '<span itemprop=”';
+    $scope.end = '”>';
+    $scope.type = '';
+    //$scope.keyword = '';
+
+    $scope.insertTag = '';
+
+    $scope.buildTag = function (baseTag, keyword, en) {
+
+        if ($scope.type === 'itemprop') {
+            //stringbuilder
+            insertTag = insertProp.concat(keyword);
+        } else {
+            //stringbuilder
+            insertScope = insertTag.concat(baseTag, keyword, end);
+        }
+
+
+    }
+
+    $scope.buildScope = function (baseTag, keyword) {
+
+        //stringbuilder
+        $scope.insertScope = $scope.insertTag.concat(baseTag, keyword, $scope.end);
+        console.log('property tag: $scope.insertTag', $scope.insertTag);
+    }
+
+    $scope.buildProp = function (keyword) {
+        //stringbuilder
+        $scope.insertTag = $scope.insertProp.concat(keyword, $scope.end);
+        console.log('property tag: $scope.insertTag', $scope.insertTag);
+    }
+
+}]);//insert tag - not being used
 myApp.controller('uploadRun', ['$scope', '$http', function ($scope, $http) {
 
 
