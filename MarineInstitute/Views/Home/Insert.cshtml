@@ -9,25 +9,25 @@
 
 <div class="loadFile"></div>
     
-<div class="left"><!--check css - change to selection-div -->
+
         <div ng-controller="insertController" class="tagSelector"><!--can probably remove this-->
             <dropdown-menu></dropdown-menu><!--directive called-->
-
+            <br />
+            <br /><!--formatting-->
             <p>Pre-defined tags</p>
-                <select ng-model="tagSelect" ng-click="loadTags()" class="btn btn-default dropdown-toggle">
+            <!--drop down menu is being populated with tags already stored in database
+                the vocabSelect filter is filtering depending on which vocabulary is selected - ng-click="loadTags()"-->
+                <select ng-model="tagSelect" class="btn btn-default dropdown-toggle">
                     <option class="default"></option>
                     <option ng-repeat="tags in schemaTag | filter:vocabSelect" class="list-group-item">{{ tags.Tag }}</option>
                 </select><!--need to change the get from keyword to tag - addresscontact only-->
             Selected tag = {{ tagSelect }} <!--testing - remove before demo-->
             <br />
-
-            <br />
-
-            <br />
-            <div class="tagAttributes">
-                <h3>Tag Builder.</h3>
-
+            <br /><!--formatting-->
+           
+                <h3>Tag Builder.</h3><!--option for building new tags-->
                     <p>Base tag</p>
+                    <!--drop down menu for calling the base tag table - taken directly from schema.org-->
                         <select ng-model="baseTag" class="btn btn-default dropdown-toggle">
                             <option class="default"></option>
                             <option ng-repeat="tags in baseTags" class="list-group-item">{{ tags }}</option>
@@ -49,13 +49,12 @@
                     <!--need to add an add to database button - will need to put a check that the correct vocabulary is selected
                         maybe have an uneditable text box that displays selected vocabulary and an alert box to double check-->
                 </div>
-            </div>
+         
         </div>
-    </div>
-</div>
+
 
     <!--check in css change to edit-div-->
-    <div class="right" ng-controller="htmlEdit">
+    <div ng-controller="htmlEdit">
         
         <input id="upload" type="file" class="upload" accept="text/html" ng-model="filePath" />
         <button ng-click="upload()" type="button">Load</button>
@@ -66,5 +65,5 @@
         </div>
 
     </div><!--end edit-div-->
-    
+</div><!--end insert content div - full page-->  
 

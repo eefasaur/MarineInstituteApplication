@@ -33,12 +33,12 @@ myApp.config(function ($routeProvider) {
     $routeProvider
 
 	.when('/', {
-	    templateURL: 'home/Create.cshtml',
+	    templateURL: 'Home/Create.cshtml',
 	    controller: 'vocabController'
 	})
 
 	.when('/', {
-	    templateURL: 'home/Insert.cshtml',
+	    templateURL: 'Home/Insert.cshtml',
 	    controller: 'insertController'
 	})
 
@@ -166,15 +166,15 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabService', function
 
         //gets value of the selected vocabulary
         //uses a factory to pass variable across controllers
-        //a watch is set on the factory so that when it changes it will update the variable
             $scope.vocabSelect = vocabService.vocabSelect;
-            $scope.$watch('vocabSelect', function () {
-                vocabService.vocabSelect = $scope.vocabSelect;
-                console.log('vocabarray: $scope.vocabSelect', $scope.vocabSelect);//console testing
-            });
+
+        //might be able to remove following lines
+            //$scope.$watch('vocabSelect', function () {
+            //    vocabService.vocabSelect = $scope.vocabSelect;
+            //    console.log('submut: $scope.vocabSelect', $scope.vocabSelect);//console testing
+            //});
 
         //set parameters
-        //vocab select is going to have to be accessed by watch service
         //ran into difficulty passing json objects to the controller
         //was passing an object array with different data types (string and array)
         //so decided to build it all into one array as this worked!
@@ -205,25 +205,27 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabService', function
 
 //insert tag view
 myApp.controller('insertController', ['$scope', '$http', 'vocabService', function ($scope, $http, vocabService) {
+
     //gets value of the selected vocabulary
     //uses a factory to pass variable across controllers
     //a watch is set on the factory so that when it changes it will update the variable
-
-    $scope.vocabSelect = vocabService.selected;
-    $scope.$watch('vocabSelect', function () {
-        vocabService.selected = $scope.vocabSelect;
-        console.log('vocabarray: $scope.vocabSelect', $scope.vocabSelect);//console testing
-    });
+    $scope.vocabSelect = '';//define the vocabService.selected on load - otherwise cannot be called in watch function
 
 
+    //http:/ / stackoverflow.com / questions / 19744462 / update - scope - value - when - service - data - is - changed
+    //watch function which checks value for change on digest loop
+    //unsure of realistically how hard on performance this is....
+        $scope.$watch(function () {
+            $scope.vocabSelect = vocabService.get();
+            console.log('vocabarray INSERT CONTROLLER: $scope.vocabSelect', $scope.vocabSelect);//console testing
+        });
 
     //for the predefined tags
         $scope.schemaTag = [];//the list of predefined tags
-        $scope.keywords = [];//the keywords filtered according to vocab selection
         $scope.baseTags = [];//the schema.org base tags available on their site
 
     //calls controller to retrieve any already available pre-defined tags
-        $scope.loadTags = function () {
+        //$scope.loadTags = function () {
             $http.get('/api/Data/GetSchemaTag')
                 .success(function (result) {
                     $scope.schemaTag = result;//stores them in the array
@@ -232,10 +234,10 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', functio
                 .error(function (data) {
                     console.log(data);
                 })
-        }
+        //}
 
     $scope.baseTag = '';
-
+    //loads predefined base tags from schema.org
     //$scope.loadBaseTags = function () {
     $http.get('/api/SchemaTag/GetTag')
         .success(function (result) {
@@ -247,10 +249,12 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', functio
         })
     //}
 
-    $scope.keyword = '';
-    
 
-    $scope.loadKeywords = function () {
+
+    $scope.keyword = '';
+    $scope.keywords = [];//the keywords filtered according to vocab selection
+
+   // $scope.loadKeywords = function () {
         $http.get('/api/Data/GetKeyword')
             .success(function (result) {
                 $scope.keywords = result;
@@ -259,7 +263,7 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', functio
             .error(function (data) {
                 console.log(data);
             })
-    }
+  //  }
 
 
 
@@ -303,14 +307,22 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', functio
 myApp.controller('dropdownData', ['$scope', '$http', 'vocabService', function ($scope, $http, vocabService) {
 
     $scope.catSelect = '';
+    $scope.vocabSelect = '';
+
+    $scope.$watch('vocabSelect', function () {//watch for any changes in this scope variable
+        vocabService.store($scope.vocabSelect);//if there is a change, make the value bound to vocab select = to the value in the factory
+        console.log('vocabarray DropDowncontroller: $scope.vocabSelect', $scope.vocabSelect);//console testing
+    })
+
+    /*
     $scope.vocabSelect = vocabService.vocabSelect;//set to value in the factory service
 
     //watch must be set on the factory service so that when the value changes it updates in this scope
-        $scope.$watch('vocabSelect', function () {
-            vocabService.vocabSelect = $scope.vocabSelect;
-            console.log('vocabselect factory: $scope.vocabSelect', $scope.vocabSelect);//console testing
+        $scope.$watch('vocabSelect', function () {//watch vocab select for any changes and when there is a change
+            vocabService.vocabSelect = $scope.vocabSelect;//update the value at vocabservce vocab select to the new value
+            console.log('vocabarray DropDowncontroller: $scope.vocabSelect', $scope.vocabSelect);//console testing
         });
-
+        */
 
     $scope.dropdownTables = {};
 
@@ -365,15 +377,19 @@ myApp.controller('dropdownData', ['$scope', '$http', 'vocabService', function ($
     });
 
 
-    $scope.loadArray = function () {
-        $scope.vocabArray = { 'Administration': $scope.adminCat, 'Oceanography': $scope.oceanCat, 'Meteorology': $scope.meteorCat, 'OceanEnergy': $scope.energyCat };
-        //console.log('Vocab Array: $scope.vocabArray', $scope.vocabArray);
-    }
 
-    $scope.populate = function (catSelect) {
-        $scope.dropdownTables = $scope.vocabArray[catSelect];
-        console.log('Array selected: $scope.dropdownTables ', $scope.dropdownTables);
-    }
+    //relating the tables to the appropriate catagory
+        $scope.loadArray = function () {
+            $scope.vocabArray = { 'Administration': $scope.adminCat, 'Oceanography': $scope.oceanCat, 'Meteorology': $scope.meteorCat, 'OceanEnergy': $scope.energyCat };
+            //console.log('Vocab Array: $scope.vocabArray', $scope.vocabArray);
+        }
+
+    //when a catagory is selcted - the function looks for value at the 'index' selected
+    // e.g. if catSelect = 'OceanEnergy' then vocabArray['OceanEnergy'] = energyCat
+        $scope.populate = function (catSelect) {
+            $scope.dropdownTables = $scope.vocabArray[catSelect];
+            console.log('Array selected: $scope.dropdownTables ', $scope.dropdownTables);
+        }
 
 
 }]);
@@ -386,7 +402,7 @@ myApp.controller('dropdownData', ['$scope', '$http', 'vocabService', function ($
 myApp.factory('vocabService', function () {
 
     var selected ='';
-    
+  
     return {
         store: function (word) {
             selected = word;
@@ -396,6 +412,7 @@ myApp.factory('vocabService', function () {
             return selected;
         }
     }
+   
        
 });
 

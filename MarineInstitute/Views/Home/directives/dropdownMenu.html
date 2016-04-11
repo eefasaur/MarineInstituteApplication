@@ -12,7 +12,7 @@
     <p>Select which Table you would like to selected add words to.....</p>
 
 
-    <select ng-change="urlSelect(vocabSelect)" ng-model="vocabSelect" class="btn btn-default dropdown-toggle">
+    <select ng-model="vocabSelect" class="btn btn-default dropdown-toggle">
         <option class="default"></option>
         <option ng-repeat="voc in dropdownTables" class="list-group-item">{{ voc }}</option>
     </select>
