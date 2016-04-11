@@ -301,6 +301,7 @@
       <LastGenOutput>MarineData.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\angular-ui\angular-route.min.js.map" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\editor\ace.js" />
     <Content Include="Scripts\editor\cloudEdit.min.js" />

@@ -74,7 +74,7 @@ namespace MarineInstitute.Controllers
                 sw.Add(w);
             }
 
-            Console.WriteLine(sw._stops);
+            Console.WriteLine(sw.stopWords);
         }
 
         //call upload service

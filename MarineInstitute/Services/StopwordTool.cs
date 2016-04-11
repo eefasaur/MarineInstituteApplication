@@ -11,48 +11,54 @@ namespace WebApplicationProject
     public class StopwordTool
     {
 
-
-        public void Get()
-        {
-            MarineDataEntities db = new MarineDataEntities();
-           
-            var result = from w in db.StopWordLists
-                         select w.Stopword;
-
-            var words = result.ToList();
-
-            foreach (string w in words)
+        //this calls the current stopWords stored in the databse and adds them to the stopWords dictionary
+        //this is done each time the program is run against an xmlFile
+        //i chose to do this to keep the data up to date and avoid manual insertion
+            public void Get()
             {
-                Add(w);
+                MarineDataEntities db = new MarineDataEntities();
+           
+                var result = from w in db.StopWordLists
+                             select w.Stopword;
+
+                var words = result.ToList();
+
+                foreach (string w in words)
+                {
+                    Add(w);
+                }
+
             }
 
-        }
         
         
         //Add method
-        public void Add(string value)
-        {
-            try
+        //adds values into the stopWords dictionary to be used on each loading of a new xml file
+        //this ensures that the tool is kept current with whats stored and updated in the database
+        //instead of manually having to update the dictionary after each run
+            public void Add(string value)
             {
-                if (_stops.ContainsKey(value) != true)
+                string word = value.ToLower();//data persistance
+                try
                 {
-                    _stops.Add(value, true);
+                    if (stopWords.ContainsKey(word) != true)
+                    {
+                        stopWords.Add(word, true);
+                    }
                 }
+                catch(Exception e)
+                {
+                    Trace.TraceInformation("Error: {0}", e);
+                }
+       
             }
-            catch(Exception e)
-            {
-                Trace.TraceInformation("Error: {0}", e);
-            }
-            
-               
-            
-        }
+         
 
-
-        /// <summary>
-        /// Words we want to remove.
-        /// </summary>
-        public Dictionary<string, bool> _stops = new Dictionary<string, bool>
+        //this is the data structure i chose to store my stopWords in
+        //it is similar to a hashmap in java - you can store a key value pair
+        //in this case it is a string and a bool, word and true
+        //this makes it searchable and you can call .ContainsKey on the structure
+        public Dictionary<string, bool> stopWords = new Dictionary<string, bool>
     {
 	       
     /*
@@ -379,52 +385,43 @@ namespace WebApplicationProject
 
     };
 
-        /// <summary>
-        /// Chars that separate words.
-        /// </summary>
-        static char[] _delimiters = new char[] { ' ', ',', ';', '.' };//array of delimeters space comma semi colon fullstop
 
-        /// <summary>
-        /// Remove stopwords from string.
-        /// </summary>
+        static char[] delimiters = new char[] { ' ', ',', ';', '.' };//array of delimeters space comma semi colon fullstop
+
+        
+        //method which takes in a string of words to compare against the stop words array
+        //returns a string with the unwanted words removed
         public string RemoveStopwords(string input)
         {
-            // 1
-            // Split parameter into words
-            var words = input.Split(_delimiters,
-                StringSplitOptions.RemoveEmptyEntries);
+            // splits the input string into a list of words broken apart by delimeters defined
+            //String split options ensure that empty strings are not returned 
+            //The return value does not include array elements that contain an empty string (MSDN)
+            var words = input.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 
-            // 2
-            // Allocate new dictionary to store found words
+
+            //create a new dictionary structure to store the removed words in
             var found = new Dictionary<string, bool>();
 
-            // 3
-            // Store results in this StringBuilder
-            StringBuilder builder = new StringBuilder();
+            //create a new StringBuilder string structure to store the
+            //words to be kept in
+            StringBuilder keep = new StringBuilder();
 
-            // 4
-            // Loop through all words
+            //loop through the words list of words
             foreach (string currentWord in words)
             {
-                // 5
-                // Convert to lowercase
-                string lowerWord = currentWord.ToLower();
+                string lowerWord = currentWord.ToLower();//convert to lower case to keep words the same (persistance)
 
 
-                // 6
-                // If this is a usable word, add it
-                if (!_stops.ContainsKey(lowerWord) &&
-                !found.ContainsKey(lowerWord))
+                //if the word is not already in stopwords
+                //and if it has not already been stored in the found array
+                if (!stopWords.ContainsKey(lowerWord) && !found.ContainsKey(lowerWord))
                 {
-                    builder.Append(currentWord).Append(' ');
-                    found.Add(lowerWord, true);
+                    keep.Append(currentWord).Append(' ');//append it to the keep Stringbuilder structure
+                    found.Add(lowerWord, true);//add to the found Dictionary - so it will not be included again
                 }
             }
 
-
-            // 7
-            // Return string with words removed
-            return builder.ToString().Trim();
+            return keep.ToString().Trim();//Trim() Removes all leading and trailing white-space characters from the current String object. (MSDN)
         }
 
     }
