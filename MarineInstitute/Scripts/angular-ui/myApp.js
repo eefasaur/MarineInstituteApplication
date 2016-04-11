@@ -492,13 +492,13 @@ myApp.controller('tagBuiler', ['$scope', function ($scope) {
 }]);//insert tag page
 
 //handles the functionality of inserting tags
-myApp.controller('htmlEdit', ['$scope', function ($scope) {
+myApp.controller('htmlEdit', ['$scope', 'tagService', function ($scope, tagService) {
 
     $scope.filePath = '';
 
     $scope.plainHTML = "";//placeholder
 
-    $scope.tag = '<span itemprop="test">';
+    //$scope.tag = '<span itemprop="test">';
 
     //e = event happening
     //do i need e in upload parameter?
@@ -536,7 +536,7 @@ myApp.controller('htmlEdit', ['$scope', function ($scope) {
     //$scope.surround = function (e) {}
 
     $scope.surround = function () {
-
+        $scope.tag = tagService.get();
 
         //selected text (highlighted in div)
         var selectedText = document.getSelection();
