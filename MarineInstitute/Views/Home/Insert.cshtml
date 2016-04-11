@@ -17,7 +17,7 @@
             <p>Pre-defined tags</p>
             <!--drop down menu is being populated with tags already stored in database
                 the vocabSelect filter is filtering depending on which vocabulary is selected - ng-click="loadTags()"-->
-                <select ng-model="tagSelect" class="btn btn-default dropdown-toggle">
+                <select ng-model="insertTag" class="btn btn-default dropdown-toggle">
                     <option class="default"></option>
                     <option ng-repeat="tags in schemaTag | filter:vocabSelect" class="list-group-item">{{ tags.Tag }}</option>
                 </select><!--need to change the get from keyword to tag - addresscontact only-->
@@ -43,9 +43,11 @@
                     <br />
                     Selected vocabulary(from dropdown) = {{ vocabSelect }} <!--testing - remove before demo-->
                 <div class="tagBuilder">
-                    <input value="{{ insertTag }}" type="text" class="tagBuilderView" /><br/><!--Some nice fancy javascript here to build the tag-->
+                    <input ng-model="insertTag" type="text" class="tagBuilderView" /><br/><!--Some nice fancy javascript here to build the tag-->
                         <button type="button" ng-click="buildScope(baseTag,keyword)">Build Scope Tag</button>
                         <button type="button" ng-click="buildProp(keyword)">Build Property Tag</button>
+                    <br/>
+                        <button type="button" ng-click="submitTag(keyword)">Submit to Database</button>
                     <!--need to add an add to database button - will need to put a check that the correct vocabulary is selected
                         maybe have an uneditable text box that displays selected vocabulary and an alert box to double check-->
                 </div>

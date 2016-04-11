@@ -59,9 +59,43 @@ namespace MarineInstitute.Controllers
                     db.SaveChanges();
 
                 }
-     
+
         }
 
+        //POST: api/Data
+        [HttpPost]
+        public void InsertTag(string[] data)
+        {
+            string keyword = data[0];
+            string tag = data[1];
+
+            string connString = "Server=lugh4.it.nuigalway.ie; database=msdb2294; uid=msdb2294A";
+            SqlConnection connection = new SqlConnection(connString);
+
+            try
+            {
+                connection.Open();
+
+                string query = @"UPDATE Data SET Tag = @tag WHERE Keyword = @keyword";
+                SqlCommand command = new SqlCommand(query, connection);
+                //set values
+                command.Parameters.AddWithValue("@tag", tag);
+                command.Parameters.AddWithValue("@keyword", keyword);
+
+                command.ExecuteNonQuery();
+            }
+            catch { }
+            finally
+            {
+                if (connection != null) 
+                {
+                    connection.Close();
+                }
+                
+            }
+                
+
+        }
 
         //PUSH: api/Data
 

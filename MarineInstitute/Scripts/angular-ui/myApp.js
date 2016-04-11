@@ -14,7 +14,7 @@ myApp.directive('dropdownMenu', function () {
         template:'<div><p>Select which Category you would like to get tables from.....</p>'
             +'<select ng-click="loadArray()" ng-change="populate(catSelect)" ng-model="catSelect" class="btn btn-default dropdown-toggle"><option></option>'
             +'<option ng-repeat="cat in catalogueTable" class="list-group-item">{{ cat }}</option></select><br /><p>Select which Table you would like to selected add words to.....</p>'
-            +'<select ng-change="urlSelect(vocabSelect)" ng-model="vocabSelect" class="btn btn-default dropdown-toggle"><option class="default"></option>'
+            +'<select ng-model="vocabSelect" class="btn btn-default dropdown-toggle"><option class="default"></option>'
             + '<option ng-repeat="voc in dropdownTables" class="list-group-item">{{ voc }}</option></select>Selected = {{ vocabSelect }}</div>',
         //templateUrl: 'directives/dropdownMenu.html',//view
         replace: true,
@@ -204,7 +204,10 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabService', function
 }]);
 
 //insert tag view
-myApp.controller('insertController', ['$scope', '$http', 'vocabService', function ($scope, $http, vocabService) {
+myApp.controller('insertController', ['$scope', '$http', 'vocabService', 'tagService', function ($scope, $http, vocabService, tagService) {
+
+
+
 
     //gets value of the selected vocabulary
     //uses a factory to pass variable across controllers
@@ -215,26 +218,45 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', functio
     //http:/ / stackoverflow.com / questions / 19744462 / update - scope - value - when - service - data - is - changed
     //watch function which checks value for change on digest loop
     //unsure of realistically how hard on performance this is....
-        $scope.$watch(function () {
-            $scope.vocabSelect = vocabService.get();
-            console.log('vocabarray INSERT CONTROLLER: $scope.vocabSelect', $scope.vocabSelect);//console testing
-        });
+    $scope.$watch(function () {
+        $scope.vocabSelect = vocabService.get();
+        //console.log('vocabarray INSERT CONTROLLER: $scope.vocabSelect', $scope.vocabSelect);//console testing
+    });
+
+
+
+    $scope.keyword = '';
+    $scope.keywords = [];//the keywords filtered according to vocab selection
+
+    // $scope.loadKeywords = function () {
+    $http.get('/api/Data/GetKeyword')
+        .success(function (result) {
+            $scope.keywords = result;
+            console.log('Keywords: $scope.keywords ', $scope.keywords);
+        })
+        .error(function (data) {
+            console.log(data);
+        })
+    //  }
+
+
+
 
     //for the predefined tags
-        $scope.schemaTag = [];//the list of predefined tags
-        $scope.baseTags = [];//the schema.org base tags available on their site
+    $scope.schemaTag = [];//the list of predefined tags
+    $scope.baseTags = [];//the schema.org base tags available on their site
 
     //calls controller to retrieve any already available pre-defined tags
-        //$scope.loadTags = function () {
-            $http.get('/api/Data/GetSchemaTag')
-                .success(function (result) {
-                    $scope.schemaTag = result;//stores them in the array
-                    console.log('Predefined tags: $scope.schemaTag ', $scope.schemaTag);//console testings
-                })
-                .error(function (data) {
-                    console.log(data);
-                })
-        //}
+    //$scope.loadTags = function () {
+    $http.get('/api/Data/GetSchemaTag')
+        .success(function (result) {
+            $scope.schemaTag = result;//stores them in the array
+            console.log('Predefined tags: $scope.schemaTag ', $scope.schemaTag);//console testings
+        })
+        .error(function (data) {
+            console.log(data);
+        })
+    //}
 
     $scope.baseTag = '';
     //loads predefined base tags from schema.org
@@ -250,36 +272,25 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', functio
     //}
 
 
+    $scope.insertTag = '<tag>';//default value - also used as a model for the predefined tags ($scope.schemaTag)
 
-    $scope.keyword = '';
-    $scope.keywords = [];//the keywords filtered according to vocab selection
+    $scope.$watch('insertTag', function () {
+        tagService.store($scope.insertTag);//not doing a test because it will keep watching and clog console
+                                           //will test its recieved in factory
+    })
 
-   // $scope.loadKeywords = function () {
-        $http.get('/api/Data/GetKeyword')
-            .success(function (result) {
-                $scope.keywords = result;
-                console.log('Keywords: $scope.keywords ', $scope.keywords);
-            })
-            .error(function (data) {
-                console.log(data);
-            })
-  //  }
+
 
 
 
     //tagbuilder also has its own controller below
     //the elements required to create a tag
-        $scope.insertScope = '<div itemscope=”http://schema.org/'; //scope tag
-        $scope.insertProp = '<span itemprop=”'; //property tag
-        $scope.end = '”>';//the end
-        $scope.type = '';//probably not going to need this??
+    $scope.insertScope = '<div itemscope=”http://schema.org/'; //scope tag
+    $scope.insertProp = '<span itemprop=”'; //property tag
+    $scope.end = '”>';//the end
+    $scope.type = '';//probably not going to need this??
         
-    //the tag to be inserted
-    //need to create a factory to pass this to editor
-    //and place a $watch on it
-        $scope.insertTag = '';
-    //also have to create a post request to pass this tag into the database
-    //will take insertTag and vocabSelect as parameters
+        
 
     //function which constructs the tag using the different elements that have been selected
     //scope tag takes in both the keyword and the base tag
@@ -287,18 +298,43 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', functio
 
             //stringbuilder
             //really straightforward javascript method that concatonates strings together
-                $scope.insertTag = $scope.insertScope.concat(baseTag, keyword, $scope.end);
-                console.log('property tag: $scope.insertScope', $scope.insertScope);//console testing
-        }
+            $scope.insertTag = $scope.insertScope.concat(baseTag, keyword, $scope.end);
+            tagService.store($scope.insertTag);
+            console.log('scope tag: $scope.insertTag', $scope.insertTag);//console testing
+        };
 
     //propery tag just takes in keyword
     //uses the same string building method as the scope function
         $scope.buildProp = function (keyword) {
             //stringbuilder
-                $scope.insertTag = $scope.insertProp.concat(keyword, $scope.end);
-                console.log('property tag: $scope.insertTag', $scope.insertTag);
-        }
+            $scope.insertTag = $scope.insertProp.concat(keyword, $scope.end);
+            tagService.store($scope.insertTag);
+            console.log('property tag: $scope.insertTag', $scope.insertTag);
+        };
 
+    
+    //function submits the newly created tag into the database
+        $scope.submitTag = function(keyword){
+        $scope.word = keyword;
+
+        $scope.submit = [$scope.word, $scope.insertTag];//instantiate the submit array (will take a keyword and a tag)
+        console.log('submit array NEW TAG:  $scope.submit', $scope.submit);
+        //submit tag to database
+        //takes in the keyword as a parameter to store at that index within the database
+        $http({
+            method: 'POST',//what type of http request is it
+            url: '../api/Data/InsertTag',//name of the uri method being called in contoller
+            data: $scope.submit//parameters being passed
+        })
+               .success(function () {
+                   console.log('Success');//test in console
+               })
+               .error(function (data) {
+                   console.log('Failed data', data)//test in console
+               });
+
+        $scope.submit = [];//resets the array to 0 
+    }//end submitTag method
 
 }]);
 
@@ -406,7 +442,7 @@ myApp.factory('vocabService', function () {
     return {
         store: function (word) {
             selected = word;
-            console.log('selected vocab in factory: word ', word);
+            console.log('selected vocab in factory: word ', word);//console testing
         },
         get: function () {
             return selected;
@@ -530,16 +566,24 @@ myApp.controller('htmlEdit', ['$scope', function ($scope) {
 
     }
 
-
-
 }]);//end html editor
 
 //will be used to share tags from main insert controller - to the editor
-myApp.factory('tagAttr', ['$rootScope', function ($rootScope) {
+myApp.factory('tagService', function () {
 
-    //attributes to be shared go here
+    var tag = '';
 
-}]);//empty
+    return {
+        store: function (newTag) {
+            tag = newTag;
+            console.log('new tag in TAG FACTORY: newTag', newTag);//console testing
+        },
+        get: function () {
+            return tag;
+        }
+    }
+
+});//end tag service
 
 myApp.controller('uploadRun', ['$scope', '$http', function ($scope, $http) {
 
