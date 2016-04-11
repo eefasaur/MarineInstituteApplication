@@ -30,7 +30,7 @@
                     <p>Base tag</p>
                         <select ng-model="baseTag" class="btn btn-default dropdown-toggle">
                             <option class="default"></option>
-                            <option ng-repeat="tags in baseTags | filter:vocabSelect" class="list-group-item">{{ tags }}</option>
+                            <option ng-repeat="tags in baseTags" class="list-group-item">{{ tags }}</option>
                         </select>
                     Selected tag = {{ baseTag }} <!--testing - remove before demo-->
                     <br />

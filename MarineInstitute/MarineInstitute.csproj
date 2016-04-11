@@ -213,7 +213,7 @@
     <Compile Include="Services\ParseService.cs" />
     <Compile Include="Services\StopwordTool.cs" />
     <Compile Include="Controllers\VocabularyController.cs" />
-    <Compile Include="Scripts\WaveController.cs" />
+    <Compile Include="Removed\WaveController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

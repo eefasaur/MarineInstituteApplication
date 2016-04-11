@@ -15,7 +15,7 @@ myApp.directive('dropdownMenu', function () {
             +'<select ng-click="loadArray()" ng-change="populate(catSelect)" ng-model="catSelect" class="btn btn-default dropdown-toggle"><option></option>'
             +'<option ng-repeat="cat in catalogueTable" class="list-group-item">{{ cat }}</option></select><br /><p>Select which Table you would like to selected add words to.....</p>'
             +'<select ng-change="urlSelect(vocabSelect)" ng-model="vocabSelect" class="btn btn-default dropdown-toggle"><option class="default"></option>'
-            +'<option ng-repeat="voc in dropdownTables" class="list-group-item">{{ voc }}</option></select></div>',
+            + '<option ng-repeat="voc in dropdownTables" class="list-group-item">{{ voc }}</option></select>Selected = {{ vocabSelect }}</div>',
         //templateUrl: 'directives/dropdownMenu.html',//view
         replace: true,
         controller: 'dropdownData',
@@ -205,6 +205,15 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabService', function
 
 //insert tag view
 myApp.controller('insertController', ['$scope', '$http', 'vocabService', function ($scope, $http, vocabService) {
+    //gets value of the selected vocabulary
+    //uses a factory to pass variable across controllers
+    //a watch is set on the factory so that when it changes it will update the variable
+
+    $scope.vocabSelect = vocabService.selected;
+    $scope.$watch('vocabSelect', function () {
+        vocabService.selected = $scope.vocabSelect;
+        console.log('vocabarray: $scope.vocabSelect', $scope.vocabSelect);//console testing
+    });
 
 
 
@@ -251,15 +260,6 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', functio
                 console.log(data);
             })
     }
-
-    //gets value of the selected vocabulary
-    //uses a factory to pass variable across controllers
-    //a watch is set on the factory so that when it changes it will update the variable
-        $scope.vocabSelect = vocabService.vocabSelect;
-        $scope.$watch('vocabSelect', function () {
-            vocabService.vocabSelect = $scope.vocabSelect;
-            console.log('vocabarray: $scope.vocabSelect', $scope.vocabSelect);//console testing
-        });
 
 
 
@@ -308,7 +308,7 @@ myApp.controller('dropdownData', ['$scope', '$http', 'vocabService', function ($
     //watch must be set on the factory service so that when the value changes it updates in this scope
         $scope.$watch('vocabSelect', function () {
             vocabService.vocabSelect = $scope.vocabSelect;
-            console.log('vocabselect: $scope.vocabSelect', $scope.vocabSelect);//console testing
+            console.log('vocabselect factory: $scope.vocabSelect', $scope.vocabSelect);//console testing
         });
 
 
