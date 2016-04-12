@@ -6,12 +6,16 @@ using System.Xml;
 using Newtonsoft.Json;
 using System.Text;
 using System.Web.Http;
+using MarineInstitute.Services;
 
 namespace WebApplicationProject.Services
 {
-    //entire parsing sequence in one long class for testing
-    //should i break into a number of classes for better decoupling?
-    //or for spa is it ok to have one service class for one task...
+    //could develop this as one class
+    //but for better maintainability i created seperate instances
+    //for the parser and the stop word tool
+    //this would mean that no code will need to be changed at this
+    //class if there were changes within the other classes called
+    //(expect for return types)
 
     public class ParseService
     {
@@ -22,41 +26,18 @@ namespace WebApplicationProject.Services
         public string[] Parse(string fileName)
         {
 
-            List<String> rawText = new List<String>();
-
-            //string xmlFile = @"C:\Users\eefasaur\Documents\Visual Studio 2013\Projects\ConsoleTests\ConsoleTests\Fisheries Biologically Sensitive Area_xml_iso19139.xml";
-
-            XmlDocument doc = new XmlDocument();
-            //doc.Load(xmlFile);
-            doc.Load(fileName);
-
-            XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
-            nsmgr.AddNamespace("gco", "http://www.isotc211.org/2005/gco");
-
-            XmlNodeList nodes = doc.SelectNodes("//gco:CharacterString", nsmgr);
-
-            foreach (XmlNode node in nodes)
-            {
-                string text = node.InnerText;
-                rawText.Add(text);
-
-                //Console.WriteLine(node.InnerText);
-            }
-
-            StringBuilder sb = new StringBuilder();
-            
-            foreach (String s in rawText)
-            {
-                sb.Append(s).Append(" ");
-            }
-
-            string bulk = sb.ToString();
+            XmlParser xp = new XmlParser();
+            List<String> list = xp.Parse(fileName);//pass file into xml parser
+            //returns list of words between the xml nodes (raw text)
 
             StopwordTool sw = new StopwordTool();
-            sw.Get();
-            string words = sw.RemoveStopwords(bulk);
+                sw.Get();//pulls the words from the database which populates the stopword dictionary
+            
+            //runs the list against the stopwords and
+            //returns a string with stopwords and duplicates removed
+                string words = sw.RemoveStopwords(list);
 
-            string[] wordsList = words.Split(' ');
+            string[] wordsList = words.Split(' ');//splits the words string into an array to be returned
 
             return wordsList;
 

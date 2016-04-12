@@ -238,6 +238,7 @@
     <Compile Include="SchemaTag.cs">
       <DependentUpon>MarineData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Services\xmlParser.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="StopWordList.cs">
       <DependentUpon>MarineData.tt</DependentUpon>

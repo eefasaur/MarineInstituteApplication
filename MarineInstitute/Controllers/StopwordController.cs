@@ -42,7 +42,7 @@ namespace MarineInstitute.Controllers
                         StopWordList sw = new StopWordList();//create new instance
                         sw.Stopword = w;//set the stop word to value of w
                         db.StopWordLists.Add(sw);//add the new stopword to the add method
-                        //db.SaveChanges();
+                        db.SaveChanges();
 
                     }
                     //http://stackoverflow.com/questions/5400530/validation-failed-for-one-or-more-entities-while-saving-changes-to-sql-server-da
@@ -58,7 +58,7 @@ namespace MarineInstitute.Controllers
                             }
                         }
                     }//end catch
-                    db.SaveChanges();//save changes together - faster
+                    //db.SaveChanges();//save changes together - faster
                 }//end foreach
             }//end using
         }
