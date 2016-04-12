@@ -52,14 +52,17 @@ namespace MarineInstitute.Controllers
         public ActionResult Parse()//calling parse service
         {
    
-            ParseService ps = new ParseService();
-            ps.register("xml", new XmlParser());
+            ParseService ps = new ParseService();//creating a new parse service
+            ps.register("xml", new XmlParser());//registering the file type xml
    
-            string fileName = @"C:\Users\eefasaur\Documents\Visual Studio 2013\Projects\ConsoleTests\ConsoleTests\Fisheries Biologically Sensitive Area_xml_iso19139.xml";
+            //hard coded path of file we're going to parse
+                string fileName = @"C:\Users\eefasaur\Documents\Visual Studio 2013\Projects\ConsoleTests\ConsoleTests\Fisheries Biologically Sensitive Area_xml_iso19139.xml";
 
-            FileType file = new FileType("xml", fileName);
+            //creating new instance of file type
+                FileType file = new FileType("xml", fileName);
             
-            var result = ps.Parse(file);
+            
+            var result = ps.Parse(file);//calling the parse method within ParseService class (passing in file type)
 
             return Json(result.ToList(), JsonRequestBehavior.AllowGet);
 

@@ -77,12 +77,12 @@ namespace WebApplicationProject
         
         //method which takes in a string of words to compare against the stop words array
         //returns a string with the unwanted words removed
-        public string RemoveStopwords(List<String> list)
+        public string RemoveStopwords(string input)
         {
             //converts the list to a string so it can be split
             //had orginally had a seperate class to change list to string builder to string
             //but was a lot of work for which one line of code in this class could handle
-                string input = list.ToString();
+                //string input = list.ToString();
 
             // splits the input string into a list of words broken apart by delimeters defined
             //String split options ensure that empty strings are not returned 

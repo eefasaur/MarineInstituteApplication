@@ -22,13 +22,13 @@ namespace WebApplicationProject.Services
     {
         
         
-        private ParserAdapter adapter = new ParserAdapter();
+        private ParserAdapter adapter = new ParserAdapter();//creating a new instance of the adapter
         
         public void register(String type, IParser parser)
         {
-            if (type != null && parser != null)
+            if (type != null && parser != null)//if the type and parser are not empty
             {
-                this.adapter.register(type, parser);
+                this.adapter.register(type, parser);//register this file type within the adapter class
             }
             else
             {
@@ -39,9 +39,17 @@ namespace WebApplicationProject.Services
 
         //string xmlFile removed for testing
         
-        public string[] Parse(FileType file)
+        public string[] Parse(FileType file)//parse method called
         {
-            List<String> list = this.adapter.Parse(file);
+            //the file type is sent to the adapter class where parse will be called on it
+                List<String> list = this.adapter.Parse(file);
+
+                BuildingString build = new BuildingString();
+                
+                StringBuilder sb = build.BuildString(list);
+
+                string bulk = sb.ToString();
+
 
             //XmlParser xp = new XmlParser();
             //List<String> list = xp.Parse(fileName);//pass file into xml parser
@@ -52,7 +60,7 @@ namespace WebApplicationProject.Services
             
             //runs the list against the stopwords and
             //returns a string with stopwords and duplicates removed
-                string words = sw.RemoveStopwords(list);
+                string words = sw.RemoveStopwords(bulk);
 
             string[] wordsList = words.Split(' ');//splits the words string into an array to be returned
 

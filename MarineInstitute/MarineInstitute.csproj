@@ -214,7 +214,8 @@
       <DependentUpon>MarineData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DataTransfer.cs" />
-    <Compile Include="Services\FileUpload.cs" />
+    <Compile Include="Services\BuildingString.cs" />
+    <Compile Include="Removed\FileUpload.cs" />
     <Compile Include="Services\ParseService.cs" />
     <Compile Include="Services\StopwordTool.cs" />
     <Compile Include="Controllers\VocabularyController.cs" />
@@ -243,7 +244,7 @@
     <Compile Include="SchemaTag.cs">
       <DependentUpon>MarineData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Services\xmlParser.cs" />
+    <Compile Include="Removed\xmlParser.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="StopWordList.cs">
       <DependentUpon>MarineData.tt</DependentUpon>
