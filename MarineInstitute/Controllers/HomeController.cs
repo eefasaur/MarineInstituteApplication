@@ -1,4 +1,5 @@
-﻿using MarineInstitute.Services;
+﻿using MarineInstitute.FileTypeAdapter;
+using MarineInstitute.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,8 +53,13 @@ namespace MarineInstitute.Controllers
         {
    
             ParseService ps = new ParseService();
+            ps.register("xml", new XmlParser());
+   
             string fileName = @"C:\Users\eefasaur\Documents\Visual Studio 2013\Projects\ConsoleTests\ConsoleTests\Fisheries Biologically Sensitive Area_xml_iso19139.xml";
-            var result = ps.Parse(fileName);
+
+            FileType file = new FileType("xml", fileName);
+            
+            var result = ps.Parse(file);
 
             return Json(result.ToList(), JsonRequestBehavior.AllowGet);
 

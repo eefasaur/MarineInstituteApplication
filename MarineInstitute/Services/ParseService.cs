@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Web.Http;
 using MarineInstitute.Services;
+using MarineInstitute.FileTypeAdapter;
 
 namespace WebApplicationProject.Services
 {
@@ -20,14 +21,30 @@ namespace WebApplicationProject.Services
     public class ParseService
     {
         
+        
+        private ParserAdapter adapter = new ParserAdapter();
+        
+        public void register(String type, IParser parser)
+        {
+            if (type != null && parser != null)
+            {
+                this.adapter.register(type, parser);
+            }
+            else
+            {
+                throw new UnexpectedFormatException("Include file type and Parser type");
+            }
+        }
+
 
         //string xmlFile removed for testing
         
-        public string[] Parse(string fileName)
+        public string[] Parse(FileType file)
         {
+            List<String> list = this.adapter.Parse(file);
 
-            XmlParser xp = new XmlParser();
-            List<String> list = xp.Parse(fileName);//pass file into xml parser
+            //XmlParser xp = new XmlParser();
+            //List<String> list = xp.Parse(fileName);//pass file into xml parser
             //returns list of words between the xml nodes (raw text)
 
             StopwordTool sw = new StopwordTool();

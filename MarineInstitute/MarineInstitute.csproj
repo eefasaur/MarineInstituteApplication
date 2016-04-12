@@ -197,6 +197,11 @@
     <Compile Include="Catalogue.cs">
       <DependentUpon>MarineData.tt</DependentUpon>
     </Compile>
+    <Compile Include="FileTypeAdapter\FileType.cs" />
+    <Compile Include="FileTypeAdapter\IParser.cs" />
+    <Compile Include="FileTypeAdapter\ParserAdapter.cs" />
+    <Compile Include="FileTypeAdapter\UnexpectedFormatException.cs" />
+    <Compile Include="FileTypeAdapter\XmlParser.cs" />
     <Compile Include="Removed\AccountController.cs" />
     <Compile Include="Removed\AddressContactController.cs" />
     <Compile Include="Controllers\CatalogueController.cs" />
