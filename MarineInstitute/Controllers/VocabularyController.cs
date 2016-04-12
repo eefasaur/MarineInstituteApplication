@@ -10,9 +10,7 @@ using System.Web.Http.Description;
 namespace MarineInstitute.Controllers
 {
     public class VocabularyController : ApiController
-    {
-        private MarineDataEntities db = new MarineDataEntities();
-        
+    {        
         //controller for getting the titles from relevant vocabularies
         //NOT a truely RESTful api
 
@@ -22,34 +20,41 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult GetVocabTitle()
         {
-            var result = from voc in db.Vocabularies
-                         select voc.Title;
+            using (MarineDataEntities db = new MarineDataEntities())
+            {
+                var result = from voc in db.Vocabularies
+                             select voc.Title;
 
-            return Ok(result.ToList());
-
+                return Ok(result.ToList());
+            }
         }
 
         //GET: api/Vocabulary/
         [HttpGet]
         public IHttpActionResult Administration()
         {
-            var query = from t in db.Vocabularies
-                        where t.Catalogues.Any(c => c.CatID == 2007)
-                        select t.Title;
+            using (MarineDataEntities db = new MarineDataEntities())
+            {
+                var query = from t in db.Vocabularies
+                            where t.Catalogues.Any(c => c.CatID == 2007)
+                            select t.Title;
 
-            return Ok(query.ToList());//pulled from site
+                return Ok(query.ToList());//pulled from site
+            }
         }
 
         //GET: api/Vocabulary/
         [HttpGet]
         public IHttpActionResult Oceanography()
         {
-
-            var query = from t in db.Vocabularies
+            using (MarineDataEntities db = new MarineDataEntities())
+            {
+                var query = from t in db.Vocabularies
                             where t.Catalogues.Any(c => c.CatID == 2001)
                             select t.Title;
-    
-            return Ok(query.ToList());
+
+                return Ok(query.ToList());
+            }
         }
 
 
@@ -57,11 +62,14 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult Meteorology()
         {
-            var query = from t in db.Vocabularies
-                        where t.Catalogues.Any(c => c.CatID == 2006)
-                        select t.Title;
+            using (MarineDataEntities db = new MarineDataEntities())
+            {
+                var query = from t in db.Vocabularies
+                            where t.Catalogues.Any(c => c.CatID == 2006)
+                            select t.Title;
 
-            return Ok(query.ToList());//pulled from site
+                return Ok(query.ToList());//pulled from site
+            }
         }
 
 
@@ -69,11 +77,14 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult OceanEnergy()
         {
-            var query = from t in db.Vocabularies
-                        where t.Catalogues.Any(c => c.CatID == 2003)
-                        select t.Title;
+            using (MarineDataEntities db = new MarineDataEntities())
+            {
+                var query = from t in db.Vocabularies
+                            where t.Catalogues.Any(c => c.CatID == 2003)
+                            select t.Title;
 
-            return Ok(query.ToList());//pulled from site
+                return Ok(query.ToList());//pulled from site
+            }
         }
 
 

@@ -11,18 +11,17 @@ namespace MarineInstitute.Controllers
     {
         //empty controller class waiting for input output methods
 
-       
-
-        private MarineDataEntities db = new MarineDataEntities(); //instantiate for entire controller class
         //GET: api/SchemaTag
         [HttpGet]
         public IHttpActionResult GetTag()
         {
-            var result = from t in db.SchemaTags
-                         select t.TagName;
+            using (MarineDataEntities db = new MarineDataEntities())
+            {
+                var result = from t in db.SchemaTags
+                             select t.TagName;
 
-            return Ok(result.ToList());
-
+                return Ok(result.ToList());
+            }
         }
         //POST: api/SchemaTag
 

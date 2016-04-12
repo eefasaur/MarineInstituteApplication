@@ -273,7 +273,6 @@
     <Content Include="Scripts\angular-ui\angular-mocks.js" />
     <Content Include="Scripts\angular-ui\angular-route.js" />
     <Content Include="Scripts\angular-ui\angular-route.min.js" />
-    <Content Include="Scripts\angular-ui\myApp_.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.js" />

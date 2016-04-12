@@ -40,7 +40,10 @@ namespace MarineInstitute
             bundles.Add(new StyleBundle("~/bundles/MIApp/style").Include(
                       "~/Content/bootstrap.css",//physical css filenames, as many as i want
                       "~/Content/site.css",
-                      "~/Content/InsertPageStyle.css"));
+                      "~/Content/InsertPageStyle.css"));//do i need seperate pages?
+            //site layout
+            //vocab
+            //insert
 
             //script
             bundles.Add(new ScriptBundle("~/bundles/MIApp/script").Include(

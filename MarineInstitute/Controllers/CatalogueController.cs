@@ -12,30 +12,24 @@ namespace MarineInstitute.Controllers
 {
     public class CatalogueController : ApiController
     {
-        private MarineDataEntities db = new MarineDataEntities();
-
         //GET: api/Catalogue
 
         //THIS WORKS
         [HttpGet]
         public IHttpActionResult GetCatalogueTitle()
         {
-            var result = from cat in db.Catalogues
-                         select cat.Title;
+            using (MarineDataEntities db = new MarineDataEntities())
+            {
+                var result = from cat in db.Catalogues
+                             select cat.Title;
 
-            return Ok(result.ToList());
-            
+                return Ok(result.ToList());
+            }
         }
 
 
         //POST: api/Catalogue
-        //[HttpPost]
-        public void insertKeyword(string[] words)
-        {
-
-        }
-
-
+        
         //PUSH: api/Catalogue
 
         //DELETE: api/Catalogue
