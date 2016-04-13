@@ -44,10 +44,11 @@
                     Selected vocabulary(from dropdown) = {{ vocabSelect }} <!--testing - remove before demo-->
                 <div class="tagBuilder">
                     <input ng-model="insertTag" type="text" class="tagBuilderView" /><br/><!--Some nice fancy javascript here to build the tag-->
-                        <button type="button" ng-click="buildScope(baseTag,keyword)">Build Scope Tag</button>
-                        <button type="button" ng-click="buildProp(keyword)">Build Property Tag</button>
+                    
+                    <button class="btn-default build" type="button" ng-click="buildScope(baseTag,keyword)">Build Scope Tag</button>
+                    <button class="btn-default build" type="button" ng-click="buildProp(keyword)">Build Property Tag</button>
                     <br/>
-                        <button type="button" ng-click="submitTag(keyword)">Submit to Database</button>
+                    <button class="btn-default submit" type="button" ng-click="submitTag(keyword)">Submit to Database</button>
                     <!--need to add an add to database button - will need to put a check that the correct vocabulary is selected
                         maybe have an uneditable text box that displays selected vocabulary and an alert box to double check-->
                 </div>
@@ -57,13 +58,14 @@
 
     <!--check in css change to edit-div-->
     <div ng-controller="htmlEdit">
-        
-        <input id="upload" type="file" class="upload" accept="text/html" ng-model="filePath" />
-        <button ng-click="upload()" type="button">Load</button>
-            
-        <div class="html-div"><!--go check stylesheets - is this div needed?--> 
-            <div id="html" class="html-text" ng-model="plainHTML" contenteditable="true">{{plainHTML}}</div><!--think this is ok-->  
-            <button ng-click="surround()">Insert</button><!--style this-->
+        <div class="html-div">
+            <!--go check stylesheets - is this div needed?-->
+            <input id="upload" type="file" class="upload btn-default" accept="text/html" ng-model="filePath" />
+            <button class="btn-default" ng-click="upload()" type="button">Load</button>
+
+
+            <div id="html" class="html-text" ng-model="plainHTML" contenteditable="true">{{plainHTML}}</div><!--think this is ok-->
+            <button class="btn-default" ng-click="surround()">Insert</button><!--style this-->
         </div>
 
     </div><!--end edit-div-->
