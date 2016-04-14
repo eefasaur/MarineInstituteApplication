@@ -49,7 +49,7 @@ myApp.config(function ($routeProvider) {
 //  refactor the create.cshtml so that the create controller looks after entire page
 //  create a directive for the dropdown menus
 //  bind the vocab select to a watch method in a service for the createController to access
-myApp.controller('vocabController', ['$scope', '$http', 'vocabService', function ($scope, $http, vocabService) {
+myApp.controller('vocabController', ['$scope', '$http', 'vocabFactory', function ($scope, $http, vocabFactory) {
 
     //get request that returns the list from parse method
     //this runs automatically when page loads however it will eventually
@@ -166,11 +166,11 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabService', function
 
         //gets value of the selected vocabulary
         //uses a factory to pass variable across controllers
-            $scope.vocabSelect = vocabService.vocabSelect;
+            $scope.vocabSelect = vocabFactory.vocabSelect;
 
         //might be able to remove following lines
             //$scope.$watch('vocabSelect', function () {
-            //    vocabService.vocabSelect = $scope.vocabSelect;
+            //    vocabFactory.vocabSelect = $scope.vocabSelect;
             //    console.log('submut: $scope.vocabSelect', $scope.vocabSelect);//console testing
             //});
 
@@ -204,7 +204,7 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabService', function
 }]);
 
 //insert tag view
-myApp.controller('insertController', ['$scope', '$http', 'vocabService', 'tagService', function ($scope, $http, vocabService, tagService) {
+myApp.controller('insertController', ['$scope', '$http', 'vocabFactory', 'tagFactory', function ($scope, $http, vocabFactory, tagFactory) {
 
 
 
@@ -212,14 +212,14 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', 'tagSer
     //gets value of the selected vocabulary
     //uses a factory to pass variable across controllers
     //a watch is set on the factory so that when it changes it will update the variable
-    $scope.vocabSelect = '';//define the vocabService.selected on load - otherwise cannot be called in watch function
+    $scope.vocabSelect = '';//define the vocabFactory.selected on load - otherwise cannot be called in watch function
 
 
     //http:/ / stackoverflow.com / questions / 19744462 / update - scope - value - when - service - data - is - changed
     //watch function which checks value for change on digest loop
     //unsure of realistically how hard on performance this is....
     $scope.$watch(function () {
-        $scope.vocabSelect = vocabService.get();
+        $scope.vocabSelect = vocabFactory.get();
         //console.log('vocabarray INSERT CONTROLLER: $scope.vocabSelect', $scope.vocabSelect);//console testing
     });
 
@@ -275,7 +275,7 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', 'tagSer
     $scope.insertTag = '<tag>';//default value - also used as a model for the predefined tags ($scope.schemaTag)
 
     $scope.$watch('insertTag', function () {
-        tagService.store($scope.insertTag);//not doing a test because it will keep watching and clog console
+        tagFactory.store($scope.insertTag);//not doing a test because it will keep watching and clog console
                                            //will test its recieved in factory
     })
 
@@ -299,7 +299,7 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', 'tagSer
             //stringbuilder
             //really straightforward javascript method that concatonates strings together
             $scope.insertTag = $scope.insertScope.concat(baseTag, keyword, $scope.end);
-            tagService.store($scope.insertTag);
+            tagFactory.store($scope.insertTag);
             console.log('scope tag: $scope.insertTag', $scope.insertTag);//console testing
         };
 
@@ -308,7 +308,7 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', 'tagSer
         $scope.buildProp = function (keyword) {
             //stringbuilder
             $scope.insertTag = $scope.insertProp.concat(keyword, $scope.end);
-            tagService.store($scope.insertTag);
+            tagFactory.store($scope.insertTag);
             console.log('property tag: $scope.insertTag', $scope.insertTag);
         };
 
@@ -340,22 +340,22 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabService', 'tagSer
 
 //Will populate dropdown menus and set apporpriate parameters for inserting into database tables
 //should be changed to a directive
-myApp.controller('dropdownData', ['$scope', '$http', 'vocabService', function ($scope, $http, vocabService) {
+myApp.controller('dropdownData', ['$scope', '$http', 'vocabFactory', function ($scope, $http, vocabFactory) {
 
     $scope.catSelect = '';
     $scope.vocabSelect = '';
 
     $scope.$watch('vocabSelect', function () {//watch for any changes in this scope variable
-        vocabService.store($scope.vocabSelect);//if there is a change, make the value bound to vocab select = to the value in the factory
+        vocabFactory.store($scope.vocabSelect);//if there is a change, make the value bound to vocab select = to the value in the factory
         console.log('vocabarray DropDowncontroller: $scope.vocabSelect', $scope.vocabSelect);//console testing
     })
 
     /*
-    $scope.vocabSelect = vocabService.vocabSelect;//set to value in the factory service
+    $scope.vocabSelect = vocabFactory.vocabSelect;//set to value in the factory service
 
     //watch must be set on the factory service so that when the value changes it updates in this scope
         $scope.$watch('vocabSelect', function () {//watch vocab select for any changes and when there is a change
-            vocabService.vocabSelect = $scope.vocabSelect;//update the value at vocabservce vocab select to the new value
+            vocabFactory.vocabSelect = $scope.vocabSelect;//update the value at vocabservce vocab select to the new value
             console.log('vocabarray DropDowncontroller: $scope.vocabSelect', $scope.vocabSelect);//console testing
         });
         */
@@ -375,42 +375,42 @@ myApp.controller('dropdownData', ['$scope', '$http', 'vocabService', function ($
     //populate the arrays
     //a series of get requests that bind the relevent vocabularies to the appropriate catagories
     //this is done server side using linq query language in the controllers
-    $http.get('/api/Vocabulary/Administration')
-    .success(function (result) {
-        $scope.adminCat = result;
-        console.log('Success, $scope.adminCat: ', $scope.adminCat);//error checking
-    })
-    .error(function (result) {
-        console.log(result);
-    });
+        $http.get('/api/Vocabulary/Administration')
+        .success(function (result) {
+            $scope.adminCat = result;
+            console.log('Success, $scope.adminCat: ', $scope.adminCat);//error checking
+        })
+        .error(function (result) {
+            console.log(result);
+        });
 
 
-    $http.get('/api/Vocabulary/Oceanography')
-    .success(function (result) {
-        $scope.oceanCat = result;
-        console.log('Success, $scope.oceanCat: ', $scope.oceanCat);//error checking
-    })
-    .error(function (data) {
-        console.log(data);
-    });
+        $http.get('/api/Vocabulary/Oceanography')
+        .success(function (result) {
+            $scope.oceanCat = result;
+            console.log('Success, $scope.oceanCat: ', $scope.oceanCat);//error checking
+        })
+        .error(function (data) {
+            console.log(data);
+        });
 
-    $http.get('/api/Vocabulary/Meteorology')
-    .success(function (result) {
-        $scope.meteorCat = result;
-        console.log('Success, $scope.meteorCat: ', $scope.meteorCat);//error checking
-    })
-    .error(function (data) {
-        console.log(data);
-    });
+        $http.get('/api/Vocabulary/Meteorology')
+        .success(function (result) {
+            $scope.meteorCat = result;
+            console.log('Success, $scope.meteorCat: ', $scope.meteorCat);//error checking
+        })
+        .error(function (data) {
+            console.log(data);
+        });
 
-    $http.get('/api/Vocabulary/OceanEnergy')
-    .success(function (result) {
-        $scope.energyCat = result;
-        console.log('Success: $scope.energyCat: ', $scope.energyCat);//error checking
-    })
-    .error(function (data) {
-        console.log(data);
-    });
+        $http.get('/api/Vocabulary/OceanEnergy')
+        .success(function (result) {
+            $scope.energyCat = result;
+            console.log('Success: $scope.energyCat: ', $scope.energyCat);//error checking
+        })
+        .error(function (data) {
+            console.log(data);
+        });
 
 
 
@@ -435,7 +435,7 @@ myApp.controller('dropdownData', ['$scope', '$http', 'vocabService', function ($
 //of the vocabulary selected out to other controllers which need it
 //anthony alicea service videos helped with this and placing the $watch
 //on the related scope variables in other controllers
-myApp.factory('vocabService', function () {
+myApp.factory('vocabFactory', function () {
 
     var selected ='';
   
@@ -452,47 +452,8 @@ myApp.factory('vocabService', function () {
        
 });
 
-//included in the insertController
-myApp.controller('tagBuiler', ['$scope', function ($scope) {
-
-    $scope.insertScope = '<itemscope=”http://schema.org/';
-    $scope.insertProp = '<span itemprop=”';
-    $scope.end = '”>';
-    $scope.type = '';
-    //$scope.keyword = '';
-
-    $scope.insertTag = '';
-
-    $scope.buildTag = function (baseTag,keyword,en) {
-        
-        if ($scope.type === 'itemprop') {
-            //stringbuilder
-            insertTag = insertProp.concat(keyword);
-        } else {
-            //stringbuilder
-            insertScope = insertTag.concat(baseTag,keyword,end);
-        }
-
-        
-    }
-
-    $scope.buildScope = function (baseTag,keyword) {
-
-        //stringbuilder
-        $scope.insertScope = $scope.insertTag.concat(baseTag, keyword, $scope.end);
-        console.log('property tag: $scope.insertTag', $scope.insertTag);
-    }
-
-    $scope.buildProp = function (keyword) {
-        //stringbuilder
-        $scope.insertTag = $scope.insertProp.concat(keyword, $scope.end);
-        console.log('property tag: $scope.insertTag', $scope.insertTag);
-    }
-
-}]);//insert tag page
-
 //handles the functionality of inserting tags
-myApp.controller('htmlEdit', ['$scope', 'tagService', function ($scope, tagService) {
+myApp.controller('htmlEdit', ['$scope', 'tagFactory', function ($scope, tagFactory) {
 
     $scope.filePath = '';
 
@@ -536,7 +497,7 @@ myApp.controller('htmlEdit', ['$scope', 'tagService', function ($scope, tagServi
     //$scope.surround = function (e) {}
 
     $scope.surround = function () {
-        $scope.tag = tagService.get();
+        $scope.tag = tagFactory.get();
 
         //selected text (highlighted in div)
         var selectedText = document.getSelection();
@@ -569,7 +530,7 @@ myApp.controller('htmlEdit', ['$scope', 'tagService', function ($scope, tagServi
 }]);//end html editor
 
 //will be used to share tags from main insert controller - to the editor
-myApp.factory('tagService', function () {
+myApp.factory('tagFactory', function () {
 
     var tag = '';
 
@@ -584,6 +545,8 @@ myApp.factory('tagService', function () {
     }
 
 });//end tag service
+
+
 
 myApp.controller('uploadRun', ['$scope', '$http', function ($scope, $http) {
 
@@ -611,5 +574,43 @@ myApp.controller('uploadRun', ['$scope', '$http', function ($scope, $http) {
     }
 }]);//not being used yet
 
+//included in the insertController
+myApp.controller('tagBuiler', ['$scope', function ($scope) {
+
+    $scope.insertScope = '<itemscope=”http://schema.org/';
+    $scope.insertProp = '<span itemprop=”';
+    $scope.end = '”>';
+    $scope.type = '';
+    //$scope.keyword = '';
+
+    $scope.insertTag = '';
+
+    $scope.buildTag = function (baseTag, keyword, en) {
+
+        if ($scope.type === 'itemprop') {
+            //stringbuilder
+            insertTag = insertProp.concat(keyword);
+        } else {
+            //stringbuilder
+            insertScope = insertTag.concat(baseTag, keyword, end);
+        }
+
+
+    }
+
+    $scope.buildScope = function (baseTag, keyword) {
+
+        //stringbuilder
+        $scope.insertScope = $scope.insertTag.concat(baseTag, keyword, $scope.end);
+        console.log('property tag: $scope.insertTag', $scope.insertTag);
+    }
+
+    $scope.buildProp = function (keyword) {
+        //stringbuilder
+        $scope.insertTag = $scope.insertProp.concat(keyword, $scope.end);
+        console.log('property tag: $scope.insertTag', $scope.insertTag);
+    }
+
+}]);//not being used
 
 
