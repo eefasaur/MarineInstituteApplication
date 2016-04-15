@@ -1,4 +1,5 @@
-﻿using MarineInstitute.Services;
+﻿using MarineInstitute.FileTypeAdapter;
+using MarineInstitute.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,9 +52,17 @@ namespace MarineInstitute.Controllers
         public ActionResult Parse()//calling parse service
         {
    
-            ParseService ps = new ParseService();
-            string fileName = @"C:\Users\eefasaur\Documents\Visual Studio 2013\Projects\ConsoleTests\ConsoleTests\Fisheries Biologically Sensitive Area_xml_iso19139.xml";
-            var result = ps.Parse(fileName);
+            ParseService ps = new ParseService();//creating a new parse service
+            ps.register("xml", new XmlParser());//registering the file type xml
+   
+            //hard coded path of file we're going to parse
+                string fileName = @"C:\Users\eefasaur\Documents\Visual Studio 2013\Projects\ConsoleTests\ConsoleTests\Fisheries Biologically Sensitive Area_xml_iso19139.xml";
+
+            //creating new instance of file type
+                FileType file = new FileType("xml", fileName);
+            
+            
+            var result = ps.Parse(file);//calling the parse method within ParseService class (passing in file type)
 
             return Json(result.ToList(), JsonRequestBehavior.AllowGet);
 
@@ -74,7 +83,7 @@ namespace MarineInstitute.Controllers
                 sw.Add(w);
             }
 
-            Console.WriteLine(sw._stops);
+            Console.WriteLine(sw.stopWords);
         }
 
         //call upload service
