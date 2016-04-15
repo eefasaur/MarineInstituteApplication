@@ -68,6 +68,8 @@ namespace MarineInstitute.Controllers
 
         }
 
+        /*
+
         public void StopWords()//calling parse service
         {
             StopwordTool sw = new StopwordTool();
@@ -87,7 +89,7 @@ namespace MarineInstitute.Controllers
         }
 
         //call upload service
-      
+      */
 
 
     }
