@@ -12,10 +12,11 @@ namespace MarineInstitute
     using System;
     using System.Collections.Generic;
     
-    public partial class Tide
+    public partial class InsertDataTest
     {
-        public int VocabID { get; set; }
+        public int ID { get; set; }
+        public string Vocab { get; set; }
         public string Keyword { get; set; }
-        public string SchemaTag { get; set; }
+        public string Tag { get; set; }
     }
 }

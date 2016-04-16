@@ -19,8 +19,8 @@ namespace MarineInstitute.Controllers
     public class DataController : ApiController
     {
 
-        //private MarineDataEntities db = new MarineDataEntities(); //instantiate for entire controller class
-        //it is better to use "using(MarineDataEntities db = new MarineDataEntities())" for each call to db
+        //private MarineEntities db = new MarineEntities(); //instantiate for entire controller class
+        //it is better to use "using(MarineEntities db = new MarineEntities())" for each call to db
         //as once the method ends the connection is closed automatically
 
         //using LINQ data queries
@@ -32,7 +32,7 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult GetKeyword()//returns the keyword list from Data table
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 var result = from k in db.Data
                              select new { k.Vocab, k.Keyword };
@@ -44,7 +44,7 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult GetSchemaTag()//returns the tags already stored in the Data table
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 var result = from k in db.Data
                              where k.Tag != null
@@ -58,7 +58,7 @@ namespace MarineInstitute.Controllers
         [HttpPost]
         public void Insert(string[] data)//inserting words into the database
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 //data array contains a vocabulary title value at index[0]
                 //appended to that is the list of words to be inserted into database data table
@@ -76,7 +76,24 @@ namespace MarineInstitute.Controllers
                     db.Data.Add(d);
 
                 }
-                db.SaveChanges();//better for performance
+
+                try
+                {
+
+                    db.SaveChanges();//better for performance
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var errors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in errors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                                    validationError.PropertyName,
+                                                    validationError.ErrorMessage);
+                        }
+                    }
+                }//end catch
             }
             //NOTE originally i was passing a JSON object array with key value pairs
             //but as they were two different data types, a string in first index and an array
@@ -91,7 +108,7 @@ namespace MarineInstitute.Controllers
         [HttpPost]
         public void InsertTag(string[] data)
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
 
                 string word = data[0];
@@ -99,15 +116,35 @@ namespace MarineInstitute.Controllers
 
 
                 List<Datum> results = (from r in db.Data
-                        where r.Keyword == word
-                        select r).ToList();
+                                       where r.Keyword == word
+                                       select r).ToList();
 
                 foreach (Datum d in results)
                 {
                     d.Tag = tag;
+                    
                 }
 
-                db.SaveChanges();
+                try
+                {
+
+                    db.SaveChanges();//better for performance
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var errors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in errors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                                    validationError.PropertyName,
+                                                    validationError.ErrorMessage);
+                        }
+                    }
+                }//end catch
+               
+
+                
             }
 
         }

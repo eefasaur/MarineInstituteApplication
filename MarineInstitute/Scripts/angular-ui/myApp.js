@@ -1,6 +1,4 @@
 ﻿var myApp = angular.module('myApp', ['ngRoute']);
-
-
 //built a custom directive for the drop down menu 
 //this particular UI element will be reused across two different views
 //this reduces the amount of code required
@@ -168,7 +166,7 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabFactory', function
 
         //gets value of the selected vocabulary
         //uses a factory to pass variable across controllers
-            $scope.vocabSelect = vocabFactory.vocabSelect;
+            $scope.vocabSelect = vocabFactory.get();
 
         //might be able to remove following lines
             //$scope.$watch('vocabSelect', function () {
@@ -361,7 +359,7 @@ myApp.controller('dropdownData', ['$scope', '$http', 'vocabFactory', function ($
             console.log('vocabarray DropDowncontroller: $scope.vocabSelect', $scope.vocabSelect);//console testing
         });
         */
-
+   
     $scope.dropdownTables = {};
 
     //initial get request to populate the different catalogues
@@ -614,5 +612,4 @@ myApp.controller('tagBuiler', ['$scope', function ($scope) {
     }
 
 }]);//not being used
-
 

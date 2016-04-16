@@ -14,6 +14,6 @@ namespace MarineInstitute.Models
         {
         }
 
-        public System.Data.Entity.DbSet<MarineInstitute.AddressContact> AddressContacts { get; set; }
+        //public System.Data.Entity.DbSet<MarineInstitute.AddressContact> AddressContacts { get; set; }
     }
 }

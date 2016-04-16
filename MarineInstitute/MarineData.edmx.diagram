@@ -4,17 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e44aa10fa17b40fd94d5bee3a32ae249" Name="Diagram1">
-        <EntityTypeShape EntityType="MarineData.AddressContact" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+      <Diagram DiagramId="134c1cdc2ed14666ab5cdf504aedd235" Name="Diagram1">
         <EntityTypeShape EntityType="MarineData.Catalogue" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarineData.SchemaTag" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarineData.sysdiagram" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarineData.Tide" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarineData.Vocabulary" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarineData.Wave" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarineData.Datum" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarineData.ItemProp" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarineData.SchemaTag" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarineData.StopWordList" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarineData.sysdiagram" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarineData.Vocabulary" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarineData.InsertDataTest" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
         <AssociationConnector Association="MarineData.CatVocabID" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="MarineData.StopWordList" Width="1.5" PointX="3.375" PointY="6.75" />
-        <EntityTypeShape EntityType="MarineData.Datum" Width="1.5" PointX="5.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

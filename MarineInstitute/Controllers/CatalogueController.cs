@@ -18,7 +18,7 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult GetCatalogueTitle()
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 var result = from cat in db.Catalogues
                              select cat.Title;

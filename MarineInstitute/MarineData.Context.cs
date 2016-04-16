@@ -13,10 +13,10 @@ namespace MarineInstitute
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MarineDataEntities : DbContext
+    public partial class MarineEntities : DbContext
     {
-        public MarineDataEntities()
-            : base("name=MarineDataEntities")
+        public MarineEntities()
+            : base("name=MarineEntities")
         {
         }
     
@@ -25,14 +25,13 @@ namespace MarineInstitute
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AddressContact> AddressContacts { get; set; }
         public virtual DbSet<Catalogue> Catalogues { get; set; }
-        public virtual DbSet<SchemaTag> SchemaTags { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<Tide> Tides { get; set; }
-        public virtual DbSet<Vocabulary> Vocabularies { get; set; }
-        public virtual DbSet<Wave> Waves { get; set; }
-        public virtual DbSet<StopWordList> StopWordLists { get; set; }
         public virtual DbSet<Datum> Data { get; set; }
+        public virtual DbSet<ItemProp> ItemProps { get; set; }
+        public virtual DbSet<SchemaTag> SchemaTags { get; set; }
+        public virtual DbSet<StopWordList> StopWordLists { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Vocabulary> Vocabularies { get; set; }
+        public virtual DbSet<InsertDataTest> InsertDataTests { get; set; }
     }
 }

@@ -16,13 +16,12 @@ namespace MarineInstitute
     {
         public Catalogue()
         {
-            this.Vocabularies1 = new HashSet<Vocabulary>();
+            this.Vocabularies = new HashSet<Vocabulary>();
         }
     
         public int CatID { get; set; }
         public string Title { get; set; }
-        public string Vocabularies { get; set; }
     
-        public virtual ICollection<Vocabulary> Vocabularies1 { get; set; }
+        public virtual ICollection<Vocabulary> Vocabularies { get; set; }
     }
 }

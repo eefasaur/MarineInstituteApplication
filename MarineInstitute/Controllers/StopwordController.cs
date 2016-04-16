@@ -15,7 +15,7 @@ namespace MarineInstitute.Controllers
         //GET: api/Stopword/
         public IHttpActionResult Get()
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 var result = from w in db.StopWordLists
                              select w.Stopword;
@@ -32,7 +32,7 @@ namespace MarineInstitute.Controllers
         public void Insert(string[] words)
         {
             //if list array is hard coded in here then the following code will write to db
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 foreach (string w in words)
                 {

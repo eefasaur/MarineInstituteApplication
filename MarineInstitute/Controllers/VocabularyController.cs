@@ -20,7 +20,7 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult GetVocabTitle()
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 var result = from voc in db.Vocabularies
                              select voc.Title;
@@ -33,7 +33,7 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult Administration()
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 var query = from t in db.Vocabularies
                             where t.Catalogues.Any(c => c.CatID == 2007)
@@ -47,7 +47,7 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult Oceanography()
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 var query = from t in db.Vocabularies
                             where t.Catalogues.Any(c => c.CatID == 2001)
@@ -62,7 +62,7 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult Meteorology()
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 var query = from t in db.Vocabularies
                             where t.Catalogues.Any(c => c.CatID == 2006)
@@ -77,7 +77,7 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult OceanEnergy()
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 var query = from t in db.Vocabularies
                             where t.Catalogues.Any(c => c.CatID == 2003)

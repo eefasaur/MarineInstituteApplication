@@ -15,7 +15,7 @@ namespace MarineInstitute.Controllers
         [HttpGet]
         public IHttpActionResult GetTag()
         {
-            using (MarineDataEntities db = new MarineDataEntities())
+            using (MarineEntities db = new MarineEntities())
             {
                 var result = from t in db.SchemaTags
                              select t.TagName;
