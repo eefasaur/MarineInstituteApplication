@@ -14,8 +14,9 @@
         <EntityTypeShape EntityType="MarineData.Wave" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <AssociationConnector Association="MarineData.CatVocabID" ManuallyRouted="false" />
         <EntityTypeShape EntityType="MarineData.StopWordList" Width="1.5" PointX="3.375" PointY="6.75" />
-        <EntityTypeShape EntityType="MarineData.TestData" Width="1.5" PointX="5.375" PointY="7.25" />
+        <EntityTypeShape EntityType="MarineData.TestData" Width="1.5" PointX="5.375" PointY="7.75" />
         <EntityTypeShape EntityType="MarineData.Data" Width="1.5" PointX="7.375" PointY="2.625" />
+        <EntityTypeShape EntityType="MarineData.ItemProp" Width="1.5" PointX="7.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

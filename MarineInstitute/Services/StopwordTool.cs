@@ -14,13 +14,14 @@ namespace WebApplicationProject
 {
     public class StopwordTool
     {
+        MarineDataEntities db = new MarineDataEntities();
 
         //this calls the current stopWords stored in the databse and adds them to the stopWords dictionary
         //this is done each time the program is run against an xmlFile
         //i chose to do this to keep the data up to date and avoid manual insertion
             public void Get()
             {
-                MarineDataEntities db = new MarineDataEntities();
+                //MarineDataEntities db = new MarineDataEntities();
            
                 var result = from w in db.StopWordLists
                              select w.Stopword;

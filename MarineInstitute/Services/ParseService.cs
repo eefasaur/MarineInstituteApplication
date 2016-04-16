@@ -24,17 +24,6 @@ namespace WebApplicationProject.Services
         
         private ParserAdapter adapter = new ParserAdapter();//creating a new instance of the adapter
         
-        public void register(String type, IParser parser)
-        {
-            if (type != null && parser != null)//if the type and parser are not empty
-            {
-                this.adapter.register(type, parser);//register this file type within the adapter class
-            }
-            else
-            {
-                throw new UnexpectedFormatException("Include file type and Parser type");
-            }
-        }
 
 
         //string xmlFile removed for testing
@@ -50,10 +39,6 @@ namespace WebApplicationProject.Services
 
                 string bulk = sb.ToString();
 
-
-            //XmlParser xp = new XmlParser();
-            //List<String> list = xp.Parse(fileName);//pass file into xml parser
-            //returns list of words between the xml nodes (raw text)
 
             StopwordTool sw = new StopwordTool();
                 sw.Get();//pulls the words from the database which populates the stopword dictionary

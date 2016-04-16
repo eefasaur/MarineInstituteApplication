@@ -53,7 +53,7 @@ namespace MarineInstitute.Controllers
         {
    
             ParseService ps = new ParseService();//creating a new parse service
-            ps.register("xml", new XmlParser());//registering the file type xml
+            //ps.register("xml", new XmlParser());//registering the file type xml
    
             //hard coded path of file we're going to parse
                 string fileName = @"C:\Users\eefasaur\Documents\Visual Studio 2013\Projects\ConsoleTests\ConsoleTests\Fisheries Biologically Sensitive Area_xml_iso19139.xml";

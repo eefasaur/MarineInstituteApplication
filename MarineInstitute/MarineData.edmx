@@ -19,7 +19,6 @@
           </Key>
           <Property Name="CatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="varchar" MaxLength="64" Nullable="false" />
-          <Property Name="Vocabularies" Type="varchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="CatVocabID">
           <Key>
@@ -37,6 +36,13 @@
           <Property Name="Vocab" Type="varchar" MaxLength="32" Nullable="false" />
           <Property Name="Keyword" Type="varchar" MaxLength="32" />
           <Property Name="Tag" Type="varchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="ItemProp">
+          <Key>
+            <PropertyRef Name="SchemaID" />
+          </Key>
+          <Property Name="SchemaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tag" Type="varchar" MaxLength="64" Nullable="false" />
         </EntityType>
         <EntityType Name="SchemaTag">
           <Key>
@@ -69,6 +75,13 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Test" Type="varchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'msdb2294.dbo.TestInsertMethods' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="TestInsertMethods">
+          <Property Name="Vocab" Type="varchar" MaxLength="50" />
+          <Property Name="Keyword" Type="varchar" MaxLength="50" />
+          <Property Name="Tag" Type="varchar" MaxLength="100" />
+        </EntityType>-->
         <EntityType Name="Tides">
           <Key>
             <PropertyRef Name="VocabID" />
@@ -121,6 +134,7 @@
           <EntitySet Name="Catalogue" EntityType="Self.Catalogue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CatVocabID" EntityType="Self.CatVocabID" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Data" EntityType="Self.Data" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemProp" EntityType="Self.ItemProp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SchemaTag" EntityType="Self.SchemaTag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StopWordList" EntityType="Self.StopWordList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -218,6 +232,7 @@
           <EntitySet Name="StopWordLists" EntityType="MarineData.StopWordList" />
           <EntitySet Name="TestDatas" EntityType="MarineData.TestData" />
           <EntitySet Name="Data1" EntityType="MarineData.Data" />
+          <EntitySet Name="ItemProps" EntityType="MarineData.ItemProp" />
         </EntityContainer>
         <EntityType Name="StopWordList">
           <Key>
@@ -242,6 +257,13 @@
           <Property Name="Keyword" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="Tag" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="ItemProp">
+          <Key>
+            <PropertyRef Name="SchemaID" />
+          </Key>
+          <Property Name="SchemaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tag" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -262,7 +284,6 @@
               <MappingFragment StoreEntitySet="Catalogue">
                 <ScalarProperty Name="CatID" ColumnName="CatID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Vocabularies" ColumnName="Vocabularies" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -342,6 +363,14 @@
                 <ScalarProperty Name="Keyword" ColumnName="Keyword" />
                 <ScalarProperty Name="Vocab" ColumnName="Vocab" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemProps">
+            <EntityTypeMapping TypeName="MarineData.ItemProp">
+              <MappingFragment StoreEntitySet="ItemProp">
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="SchemaID" ColumnName="SchemaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

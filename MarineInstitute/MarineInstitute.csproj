@@ -202,6 +202,9 @@
     <Compile Include="FileTypeAdapter\ParserAdapter.cs" />
     <Compile Include="FileTypeAdapter\UnexpectedFormatException.cs" />
     <Compile Include="FileTypeAdapter\XmlParser.cs" />
+    <Compile Include="ItemProp.cs">
+      <DependentUpon>MarineData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Removed\AccountController.cs" />
     <Compile Include="Removed\AddressContactController.cs" />
     <Compile Include="Controllers\CatalogueController.cs" />
@@ -324,7 +327,6 @@
     <Content Include="Views\Home\directives\dropdownMenu.html">
       <BrowseToURL>~/Views/Home/directives/dropdownMenu.html</BrowseToURL>
     </Content>
-    <Content Include="Views\Shared\_LayoutAlt.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -335,7 +337,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout_.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -353,7 +355,7 @@
     <Content Include="Views\Home\Create.cshtml" />
     <Content Include="Views\Home\Insert.cshtml" />
     <Content Include="Views\Home\_Editor.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LayoutAlt.cshtml" />
     <Content Include="Views\Home\_About.cshtml" />
   </ItemGroup>
   <ItemGroup />
