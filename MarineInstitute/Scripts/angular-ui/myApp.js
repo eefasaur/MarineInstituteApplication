@@ -59,6 +59,7 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabFactory', function
                 console.log('Success, $scope.xmlWords: ', $scope.xmlWords);//error checking
             })
         .error(function (data) {
+            alert("Could not Parse File - please check format and try again.");
             console.log(data);//error checking
         });
 
@@ -150,7 +151,7 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabFactory', function
                 console.log('Success');//test in console
             })
             .error(function (data) {
-                alert("Connection denied - check internet/database connections.");
+                alert("Connection failed - check internet/database connections.");
                 console.log('Failed data', data)//test in console
             });
 
@@ -191,9 +192,11 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabFactory', function
                 data: $scope.submitArray
             })
             .success(function () {
+                alert("Words added to $scope.vocabSelect.", $scope.vocabSelect);
                 console.log('Check DB!');
             })
             .error(function (data) {
+                alert("Connection failed - check internet/database connections.");
                 console.log('Failed data', data);
             });
 
@@ -235,6 +238,7 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabFactory', 'tagFac
             console.log('Keywords: $scope.keywords ', $scope.keywords);
         })
         .error(function (data) {
+            alert("Connection failed @ loading keywords - check internet/database connections.");
             console.log(data);
         })
     //  }
@@ -254,6 +258,7 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabFactory', 'tagFac
             console.log('Predefined tags: $scope.schemaTag ', $scope.schemaTag);//console testings
         })
         .error(function (data) {
+            alert("Connection failed @ loading pre-defined tags - check internet/database connections.");
             console.log(data);
         })
     //}
@@ -267,6 +272,7 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabFactory', 'tagFac
             console.log('Base tags: $scope.baseTags ', $scope.baseTags);
         })
         .error(function (data) {
+            alert("Connection failed @ loading base tags - check internet/database connections.");
             console.log(data);
         })
     //}
@@ -327,9 +333,11 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabFactory', 'tagFac
             data: $scope.submit//parameters being passed
         })
                .success(function () {
+                   alert("New tag - $scope.insertTag - submitted for keyword: $scope.word",$scope.insertTag, $scope.word);
                    console.log('Success');//test in console
                })
                .error(function (data) {
+                   alert("Connection failed - check internet/database connections.");
                    console.log('Failed data', data)//test in console
                });
 
@@ -369,6 +377,7 @@ myApp.controller('dropdownData', ['$scope', '$http', 'vocabFactory', function ($
             console.log('Success, $scope.catalogueTable: ', $scope.catalogueTable);//error checking
         })
         .error(function (data) {
+            alert("Connection failed - check internet/database connections.");
             console.log(data);
         });
 
@@ -391,7 +400,7 @@ myApp.controller('dropdownData', ['$scope', '$http', 'vocabFactory', function ($
             console.log('Success, $scope.oceanCat: ', $scope.oceanCat);//error checking
         })
         .error(function (data) {
-            console.log(data);
+             console.log(data);
         });
 
         $http.get('/api/Vocabulary/Meteorology')
@@ -412,7 +421,8 @@ myApp.controller('dropdownData', ['$scope', '$http', 'vocabFactory', function ($
             console.log(data);
         });
 
-
+    //could put all into q.all and place alert on that
+    //alert("Connection failed - check internet/database connections.");
 
     //relating the tables to the appropriate catagory
         $scope.loadArray = function () {

@@ -59,7 +59,7 @@ namespace MarineInstitute.Controllers
                 string fileName = @"C:\Users\eefasaur\Documents\Visual Studio 2013\Projects\ConsoleTests\ConsoleTests\Fisheries Biologically Sensitive Area_xml_iso19139.xml";
 
             //creating new instance of file type
-                FileType file = new FileType("xml", fileName);
+                FileType file = new FileType("html", fileName);
             
             
             var result = ps.Parse(file);//calling the parse method within ParseService class (passing in file type)

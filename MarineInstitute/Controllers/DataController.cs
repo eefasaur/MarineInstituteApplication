@@ -34,10 +34,12 @@ namespace MarineInstitute.Controllers
         {
             using (MarineEntities db = new MarineEntities())
             {
+                 
                 var result = from k in db.Data
                              select new { k.Vocab, k.Keyword };
-
                 return Ok(result.ToArray());//returns to an array (JSON)
+               
+               
             }
         }
 
@@ -79,7 +81,6 @@ namespace MarineInstitute.Controllers
 
                 try
                 {
-
                     db.SaveChanges();//better for performance
                 }
                 catch (DbEntityValidationException dbEx)
