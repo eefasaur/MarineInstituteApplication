@@ -197,25 +197,21 @@
     <Compile Include="Catalogue.cs">
       <DependentUpon>MarineData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datum.cs">
+      <DependentUpon>MarineData.tt</DependentUpon>
+    </Compile>
     <Compile Include="FileTypeAdapter\FileType.cs" />
     <Compile Include="FileTypeAdapter\IParser.cs" />
     <Compile Include="FileTypeAdapter\ParserAdapter.cs" />
     <Compile Include="FileTypeAdapter\UnexpectedFormatException.cs" />
     <Compile Include="FileTypeAdapter\XmlParser.cs" />
-    <Compile Include="ItemProp.cs">
-      <DependentUpon>MarineData.tt</DependentUpon>
-    </Compile>
     <Compile Include="Removed\AccountController.cs" />
-    <Compile Include="Removed\AddressContactController.cs" />
     <Compile Include="Controllers\CatalogueController.cs" />
     <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SchemaTagController.cs" />
     <Compile Include="Controllers\StopwordController.cs" />
     <Compile Include="Removed\TideController.cs" />
-    <Compile Include="Data.cs">
-      <DependentUpon>MarineData.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\DataTransfer.cs" />
     <Compile Include="Services\BuildingString.cs" />
     <Compile Include="Removed\FileUpload.cs" />
@@ -253,9 +249,6 @@
       <DependentUpon>MarineData.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagram.cs">
-      <DependentUpon>MarineData.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TestData.cs">
       <DependentUpon>MarineData.tt</DependentUpon>
     </Compile>
     <Compile Include="Tide.cs">

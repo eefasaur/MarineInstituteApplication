@@ -37,13 +37,6 @@
           <Property Name="Keyword" Type="varchar" MaxLength="32" />
           <Property Name="Tag" Type="varchar" MaxLength="64" />
         </EntityType>
-        <EntityType Name="ItemProp">
-          <Key>
-            <PropertyRef Name="SchemaID" />
-          </Key>
-          <Property Name="SchemaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Tag" Type="varchar" MaxLength="64" Nullable="false" />
-        </EntityType>
         <EntityType Name="SchemaTag">
           <Key>
             <PropertyRef Name="SchemaID" />
@@ -67,13 +60,6 @@
           <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
-        <EntityType Name="TestData">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Test" Type="varchar" MaxLength="32" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6013: The table/view 'msdb2294.dbo.TestInsertMethods' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
@@ -134,11 +120,9 @@ warning 6013: The table/view 'msdb2294.dbo.TestInsertMethods' does not have a pr
           <EntitySet Name="Catalogue" EntityType="Self.Catalogue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CatVocabID" EntityType="Self.CatVocabID" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Data" EntityType="Self.Data" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ItemProp" EntityType="Self.ItemProp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SchemaTag" EntityType="Self.SchemaTag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StopWordList" EntityType="Self.StopWordList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TestData" EntityType="Self.TestData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tides" EntityType="Self.Tides" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vocabulary" EntityType="Self.Vocabulary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Waves" EntityType="Self.Waves" Schema="dbo" store:Type="Tables" />
@@ -230,9 +214,7 @@ warning 6013: The table/view 'msdb2294.dbo.TestInsertMethods' does not have a pr
             <End Role="Vocabulary" EntitySet="Vocabularies" />
           </AssociationSet>
           <EntitySet Name="StopWordLists" EntityType="MarineData.StopWordList" />
-          <EntitySet Name="TestDatas" EntityType="MarineData.TestData" />
-          <EntitySet Name="Data1" EntityType="MarineData.Data" />
-          <EntitySet Name="ItemProps" EntityType="MarineData.ItemProp" />
+          <EntitySet Name="Data" EntityType="MarineData.Datum" />
         </EntityContainer>
         <EntityType Name="StopWordList">
           <Key>
@@ -241,14 +223,7 @@ warning 6013: The table/view 'msdb2294.dbo.TestInsertMethods' does not have a pr
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Stopword" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="TestData">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="Test" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
-        <EntityType Name="Data">
+        <EntityType Name="Datum">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -256,13 +231,6 @@ warning 6013: The table/view 'msdb2294.dbo.TestInsertMethods' does not have a pr
           <Property Name="Vocab" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="Keyword" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="Tag" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="ItemProp">
-          <Key>
-            <PropertyRef Name="SchemaID" />
-          </Key>
-          <Property Name="SchemaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Tag" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -348,29 +316,13 @@ warning 6013: The table/view 'msdb2294.dbo.TestInsertMethods' does not have a pr
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TestDatas">
-            <EntityTypeMapping TypeName="MarineData.TestData">
-              <MappingFragment StoreEntitySet="TestData">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Test" ColumnName="Test" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Data1">
-            <EntityTypeMapping TypeName="MarineData.Data">
+          <EntitySetMapping Name="Data">
+            <EntityTypeMapping TypeName="MarineData.Datum">
               <MappingFragment StoreEntitySet="Data">
                 <ScalarProperty Name="Tag" ColumnName="Tag" />
                 <ScalarProperty Name="Keyword" ColumnName="Keyword" />
                 <ScalarProperty Name="Vocab" ColumnName="Vocab" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ItemProps">
-            <EntityTypeMapping TypeName="MarineData.ItemProp">
-              <MappingFragment StoreEntitySet="ItemProp">
-                <ScalarProperty Name="Tag" ColumnName="Tag" />
-                <ScalarProperty Name="SchemaID" ColumnName="SchemaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

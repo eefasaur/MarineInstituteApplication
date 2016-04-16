@@ -33,8 +33,6 @@ namespace MarineInstitute
         public virtual DbSet<Vocabulary> Vocabularies { get; set; }
         public virtual DbSet<Wave> Waves { get; set; }
         public virtual DbSet<StopWordList> StopWordLists { get; set; }
-        public virtual DbSet<TestData> TestDatas { get; set; }
-        public virtual DbSet<Data> Data1 { get; set; }
-        public virtual DbSet<ItemProp> ItemProps { get; set; }
+        public virtual DbSet<Datum> Data { get; set; }
     }
 }

@@ -68,7 +68,7 @@ namespace MarineInstitute.Controllers
                 //Data table
                 foreach (string w in data.Skip(1))
                 {
-                    Data d = new Data();
+                    Datum d = new Datum();
 
                     d.Vocab = data[0];
 
@@ -98,11 +98,11 @@ namespace MarineInstitute.Controllers
                 string tag = data[1];
 
 
-                List<Data> results = (from r in db.Data
+                List<Datum> results = (from r in db.Data
                         where r.Keyword == word
                         select r).ToList();
 
-                foreach (Data d in results)
+                foreach (Datum d in results)
                 {
                     d.Tag = tag;
                 }

@@ -148,9 +148,11 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabFactory', function
             data: $scope.stopWords//parameters being passed
         })
             .success(function () {
+                alert("Words sucessfully deleted");
                 console.log('Success');//test in console
             })
             .error(function (data) {
+                alert("Connection denied - check internet/database connections.");
                 console.log('Failed data', data)//test in console
             });
 
