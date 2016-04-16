@@ -9,11 +9,11 @@ myApp.directive('dropdownMenu', function () {
 
     return {
         restrict: 'EA',
-        template:'<div><p>Select which Category you would like to get tables from.....</p>'
+        template:'<div id="drop-down-menu"><p>Select which Category you would like to get tables from.....</p>'
             +'<select ng-click="loadArray()" ng-change="populate(catSelect)" ng-model="catSelect" class="btn btn-default dropdown-toggle"><option></option>'
             +'<option ng-repeat="cat in catalogueTable" class="list-group-item">{{ cat }}</option></select><br /><p>Select which Table you would like to selected add words to.....</p>'
             +'<select ng-model="vocabSelect" class="btn btn-default dropdown-toggle"><option class="default"></option>'
-            + '<option ng-repeat="voc in dropdownTables" class="list-group-item">{{ voc }}</option></select>Selected = {{ vocabSelect }}</div>',
+            + '<option ng-repeat="voc in dropdownTables" class="list-group-item">{{ voc }}</option></select></div>',
         //templateUrl: 'directives/dropdownMenu.html',//view
         replace: true,
         controller: 'dropdownData',
@@ -531,6 +531,10 @@ myApp.controller('htmlEdit', ['$scope', 'tagFactory', function ($scope, tagFacto
             range.collapse(false);
             var span = document.createTextNode('</span>');
             range.insertNode(span);
+        }
+
+        $scope.save = function () {
+            alert("Press Ctrl+S to save file back to disk.  Save functionality will be online shortly.");
         }
 
 

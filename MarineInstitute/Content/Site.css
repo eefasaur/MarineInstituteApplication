@@ -1,9 +1,84 @@
-﻿body {
+﻿*{
+    border: 0.5px solid grey;
+}
+
+
+/*LIST BOX DIV*/
+.list-boxes{
+    width: 100%;
+}
+
+
+/*FROM ONLNE -- LIST BOX STYLING */
+  		.dual-list .list-group {
+            margin-top: 8px;
+        }
+        
+        .dual-list{
+            height: 100%;
+        }
+
+        .list-left li, .list-right li {
+            cursor: pointer;
+        }
+
+        .list-arrows {
+            padding-top: 100px;
+        }
+
+        .list-arrows button {
+            margin-bottom: 20px;
+        }
+
+        .list-group-item{
+        	height: 35px;
+        }
+
+        .list-group{
+            height:300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .list:hover{
+            background-color: grey;
+            color: white;
+        }
+        .select{
+            background-color: blue;
+            color: white;
+        }
+
+/*DROPDOWN MENU ELEMENT*/
+#drop-down-menu{
+    width: 50%;
+    height:25%;
+    padding: 8%;
+    float: right;
+}
+
+#drop-down-menu select{
+    min-width: 300px;
+}
+
+/*CREATE PAGE DESCRIPTION AND UPLOAD*/
+#style-create{
+    width:50%;
+    height:25%;
+    padding:10%;
+    float:left;
+
+}
+
+
+
+
+/*body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
+/* Set padding to keep content from hitting the edges 
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -11,7 +86,7 @@
 }
 
 
-/* Set width on the form input elements since they're 100% wide by default */
+/* Set width on the form input elements since they're 100% wide by default 
 input, select
 {
     max-width: 280px;
@@ -88,45 +163,7 @@ body{
     height: 35px;
 }
 
-/*FROM ONLNE*/
-  		.dual-list .list-group {
-            margin-top: 8px;
-        }
-        
-        .dual-list{
-            height: 100%;
-        }
 
-        .list-left li, .list-right li {
-            cursor: pointer;
-        }
-
-        .list-arrows {
-            padding-top: 100px;
-        }
-
-        .list-arrows button {
-            margin-bottom: 20px;
-        }
-
-        .list-group-item{
-        	height: 35px;
-        }
-
-        .list-group{
-            height:300px;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        .list:hover{
-            background-color: grey;
-            color: white;
-        }
-        .select{
-            background-color: blue;
-            color: white;
-        }
         
 
 
@@ -150,3 +187,6 @@ body{
 #uploadFile{
     
 }
+
+
+*/

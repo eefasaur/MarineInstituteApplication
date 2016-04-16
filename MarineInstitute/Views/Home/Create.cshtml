@@ -3,92 +3,100 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create Vocabulary</h2>
-<p>Extract vocabulary from XML file and save to database.</p>
+  <div class="row">
+    <h2>Create Vocabulary</h2>
+  </div>
+  
+<div class="row create-style">
+    <div class="col-lg-6">
 
-<div id="uploadRun" ng-controller="uploadRun" class="col-md-12">
-    <div class="fileUpload btn btn-default">
-            <span>Upload</span>
-            <input id="uploadBtn" type="file" class="upload" accept="text/xml" />
+        <p>Select and load a file (XML) to parse.</p>
+
+        <div id="uploadRun" ng-controller="uploadRun" class="col-md-12">
+            <!--<div class="fileUpload btn btn-default">
+                <span>Upload</span>
+                <input id="uploadBtn" type="file" class="upload" accept="text/xml" />
+            </div>-->
+            <button type="button" class="btn btn-default run">Load File</button>
+            <input id="uploadFile" ng-model="textBoxDisplay" value="FOR DEMO PURPOSES ONLY" disabled="disabled" />
+            <button type="submit" class="btn btn-default run" ng-click="runParse()">Run Program</button>
+        </div><!--uploading file div which isnt in use at the moment-->
     </div>
-    <input id="uploadFile" ng-model="textBoxDisplay" disabled="disabled" />
-    <button type="submit" class="btn btn-default run" ng-click="runParse()">Run Program</button>
-</div><!--uploading file div which isnt in use at the moment-->
-
-
-<div id="main" ng-controller="vocabController">
-
-    <dropdown-menu></dropdown-menu>
-
-
-    <div><br />
-        Selected = {{ vocabSelect }}
-        <br />
-        <button type="submit" ng-click="submitDB()" class="btn btn-default submitDB">Submit to Database</button>
-</div>
+    
+    <div class="col-lg-6 create">
+        <dropdown-menu></dropdown-menu>
+    </div>
+</div> 
 
     <br />
+    <!--below other elements-->
+    <!--NB LEFT AND RIGHT ARE SWAPPED NAMES NOT CHANGED YET-->
+<div class="row" ng-controller="vocabController">
     <div class="list-boxes">
 
+
+        <!--RIGHT LIST BOX-->
+        <div id="right" class="dual-list list-right col-md-4">
+            <div class="well">
+                <div class="row">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-10">
+                    </div>
+                </div>
+                <!--displays the list of words returned from parsed file-->
+                <ul class="list-group">
+                    <li ng-repeat="word in xmlWords" ng-click="addToArray(tempRightArray, word)" class="list-group-item list" ng-class="{select:tempRightArray.indexOf(word) !== -1}">
+                        {{ word }}
+                    </li>
+                </ul>
+            </div><!--end well-->
+        </div><!--end right list box-->
+        <!--CENTER BUTTONS-->
+        <div class="list-arrows col-md-1 text-center">
+            <!--button to MOVE LEFT-->
+            <button ng-click="transferArray(xmlWords, tempRightArray, submit)" class="btn btn-default btn-sm move-right">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+
+            <!--button to MOVE RIGHT-->
+            <button ng-click="transferArray(submit, tempLeftArray, xmlWords)" class="btn btn-default btn-sm move-left">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </button>
+
+            <!--button to REMOVE WORDS-->
+            <button ng-click="transferArray(xmlWords, tempRightArray, stopWords)" class="btn btn-default btn-sm move-right">
+                <span class="">Remove</span>
+            </button>
+
+            <!--button to DELETE WORDS - send to stop list table-->
+            <button ng-click="submitStopWords()" class="btn btn-default btn-sm move-right">
+                <span class="">Delete</span>
+            </button>
+        </div><!--end buttons-->
+        <!--LEFT LIST BOX-->
         <div id="left" class="dual-list list-left col-md-4">
             <div class="well text-right">
                 <div class="row">
                     <div class="col-md-10">
-
                     </div>
                     <div class="col-md-2">
-
                     </div>
                 </div>
+                <!--displays the list in the array to be submitted to the database-->
                 <ul class="list-group">
                     <li ng-model="submit" ng-repeat="word in submit track by word" ng-click="addToArray(tempLeftArray, word)" class="list-group-item" ng-class="{select:tempLeftArray.indexOf(word) !== -1}">
                         {{word}}
                     </li>
                 </ul>
-                <!--<div ng-model="submit">{{ tempLeftArray }}</div>-->
-            </div>
-        </div>
-
-        <div class="list-arrows col-md-1 text-center">
-            <button ng-click="transferArray(xmlWords, tempRightArray, submit)" class="btn btn-default btn-sm move-left">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-            </button>
-
-            <button ng-click="transferArray(submit, tempLeftArray, xmlWords)" class="btn btn-default btn-sm move-right">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-            </button>
-
-            <button ng-click="transferArray(xmlWords, tempRightArray, stopWords)" class="btn btn-default btn-sm move-right">
-                <span class="">Remove</span>
-            </button>
+            </div><!--end well-->
+        </div><!--end dual list left-->
 
 
-            <button ng-click="submitStopWords()" class="btn btn-default btn-sm move-right">
-                <span class="">Delete</span>
-            </button>
-        </div>
 
-        <div id="right" class="dual-list list-right col-md-4">
-            <div class="well">
-                <div class="row">
-                    <div class="col-md-2">
-
-                    </div>
-                    <div class="col-md-10">
-
-                    </div>
-                </div>
-                <ul class="list-group">
-                    <!--class="list-group-item list" --><!---->
-                    <li ng-repeat="word in xmlWords" ng-click="addToArray(tempRightArray, word)" class="list-group-item list" ng-class="{select:tempRightArray.indexOf(word) !== -1}">
-                        {{ word }}
-                    </li>
-                </ul>
-                <!--<div ng-model="tempRightArray">{{ tempRightArray }}</div>-->
-            </div>
-
-            <div ng-model="stopWords">Words to be removed permanently: {{ stopWords }}</div>
-        </div>
-
-    </div>
-</div><!--EndMain-->
+    </div><!--end list boxes div-->
+    <div class=" row create-bottom" ng-model="stopWords">
+    <div class="col-lg-6">Words to be removed permanently: {{ stopWords }}</div>
+    <!--add css to float right under list box-->
+    <button type="submit" ng-click="submitDB()" class="btn btn-default submit-button">Submit to Database</button>
+</div>
