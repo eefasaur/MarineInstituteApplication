@@ -192,7 +192,7 @@ myApp.controller('vocabController', ['$scope', '$http', 'vocabFactory', function
                 data: $scope.submitArray
             })
             .success(function () {
-                alert("Words added to $scope.vocabSelect.", $scope.vocabSelect);
+                alert("Words added to: " + $scope.vocabSelect);
                 console.log('Check DB!');
             })
             .error(function (data) {
@@ -469,11 +469,6 @@ myApp.controller('htmlEdit', ['$scope', 'tagFactory', function ($scope, tagFacto
 
     $scope.plainHTML = "";//placeholder
 
-    //$scope.tag = '<span itemprop="test">';
-
-    //e = event happening
-    //do i need e in upload parameter?
-
     $scope.upload = function (e) {
 
         //var fileInput = $scope.filePath;
@@ -490,8 +485,7 @@ myApp.controller('htmlEdit', ['$scope', 'tagFactory', function ($scope, tagFacto
                 document.getElementById('html').innerText = reader.result;
                 //console.log('$scope.plainHTML', $scope.plainHTML);
             });
-            //$scope.plainHTML;
-
+ 
         };
         reader.readAsText(file);//this reads the file into the text area
 
@@ -499,15 +493,11 @@ myApp.controller('htmlEdit', ['$scope', 'tagFactory', function ($scope, tagFacto
 
     $scope.selectedText = '';
 
-    $scope.select = function (e) {
 
-    }
-
-    $scope.tag = '<div itemscope="test">';
-    //$scope.surround = function (e) {}
 
     $scope.surround = function () {
         $scope.tag = tagFactory.get();
+
 
         //selected text (highlighted in div)
         var selectedText = document.getSelection();
@@ -533,12 +523,13 @@ myApp.controller('htmlEdit', ['$scope', 'tagFactory', function ($scope, tagFacto
             range.insertNode(span);
         }
 
-        $scope.save = function () {
-            alert("Press Ctrl+S to save file back to disk.  Save functionality will be online shortly.");
-        }
 
 
+        
+    }
 
+    $scope.save = function () {
+        alert("Save functionality is work in progress.");
     }
 
 }]);//end html editor

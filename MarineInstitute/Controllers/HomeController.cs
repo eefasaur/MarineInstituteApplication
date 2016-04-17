@@ -22,7 +22,7 @@ namespace MarineInstitute.Controllers
 
         public ActionResult Create()//application page
         {
-            ViewBag.Message = "This is where you can create Schema.org tags from your pre-defined tags and library.";
+            ViewBag.Message = "Insert Schema.org tags.";
 
             return View();
         }
