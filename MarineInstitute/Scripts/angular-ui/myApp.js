@@ -289,11 +289,10 @@ myApp.controller('insertController', ['$scope', '$http', 'vocabFactory', 'tagFac
 
 
 
-    //tagbuilder also has its own controller below
     //the elements required to create a tag
-    $scope.insertScope = '<div itemscope=”http://schema.org/'; //scope tag
-    $scope.insertProp = '<span itemprop=”'; //property tag
-    $scope.end = '”>';//the end
+    $scope.insertScope = '<div itemscope itemtype="http://schema.org/'; //scope tag
+    $scope.insertProp = '<span itemprop="'; //property tag
+    $scope.end = '">';//the end
     $scope.type = '';//probably not going to need this??
         
         
@@ -493,8 +492,6 @@ myApp.controller('htmlEdit', ['$scope', 'tagFactory', function ($scope, tagFacto
 
     $scope.selectedText = '';
 
-
-
     $scope.surround = function () {
         $scope.tag = tagFactory.get();
 
@@ -505,11 +502,8 @@ myApp.controller('htmlEdit', ['$scope', 'tagFactory', function ($scope, tagFacto
         console.log('selection: $scope.text', $scope.text);
 
         var node = document.createTextNode($scope.tag);
-
         var range = selectedText.getRangeAt(0);
 
-        //http://stackoverflow.com/questions/3597116/insert-html-after-a-selection
-        //https://developer.mozilla.org/en-US/docs/Web/API/Range/collapse
 
         range.insertNode(node);
         var tag = $scope.tag;
@@ -524,6 +518,8 @@ myApp.controller('htmlEdit', ['$scope', 'tagFactory', function ($scope, tagFacto
         }
 
 
+        //http://stackoverflow.com/questions/3597116/insert-html-after-a-selection
+        //https://developer.mozilla.org/en-US/docs/Web/API/Range/collapse
 
         
     }

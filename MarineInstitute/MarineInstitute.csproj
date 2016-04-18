@@ -303,6 +303,7 @@
       <DependentUpon>MarineData.edmx</DependentUpon>
       <LastGenOutput>MarineData.cs</LastGenOutput>
     </Content>
+    <Content Include="ClassDiagram2.cd" />
     <None Include="Properties\PublishProfiles\MarineInstituteApplication.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
