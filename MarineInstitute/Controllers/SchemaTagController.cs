@@ -17,11 +17,13 @@ namespace MarineInstitute.Controllers
         {
             using (MarineEntities db = new MarineEntities())
             {
-                var result = from t in db.SchemaTags
-                             select t.TagName;
+                var result = from k in db.Data
+                             where k.Tag != null
+                             select new { k.Tag };
 
-                return Ok(result.ToList());
+                return Ok(result.ToArray());//returns as array (JSON)
             }
+            
         }
         //POST: api/SchemaTag
 
